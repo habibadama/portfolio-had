@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HAD - Portfolio</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playwrite+NZ+Basic:wght@100..400&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body class="theme-light">
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <a href="#">Dioumanera</a>
+                </div>
+                <div class="list-darkmode-menu">
+                    <ul>
+                        <li><a href="#hero">Accueil</a></li>
+                        <li><a href="#about">À propos</a></li>
+                        <li><a href="#projects">Projets</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                    <div class="theme-container">
+                        <label class="theme-switch">
+                            <input type="checkbox" id="themeToggle">
+                            <span class="slider">
+                                <i class="fa-solid fa-sun icon-sun"></i>
+                                <i class="fa-solid fa-moon icon-moon"></i>
+                            </span>
+                        </label>
+                    </div>
+                    <button class="hamburger">
+                        <div class="bar"></div>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- OVERLAY POUR LE MENU MOBILE -->
+    <div class="overlay" id="overlay"></div>
+
+    <main>
+        <section id="hero">
+            <div class="container">
+                <div class="hero-text">
+                    <h4>Bonjour, je suis</h4>
+                    <h1>Habib Adama <span>Dioumanera</span></h1>
+                    <p>Développeur Web Full Stack passionné par la création d'expériences numériques innovantes.</p>
+                    <a href="assets/cv/had_cv.PDF" class="download-cv_btn" download>Télécharger mon CV <i class="fa-solid fa-download"></i></a>
+                </div>
+                <div class="hero-image">
+                    <img src="assets/images/profil.png" alt="Habib Adama Dioumanera">
+                </div>
+            </div>
+        </section>
+
+        <section id="about">
+            <div class="container">
+                <div class="about-content">
+                    <p>Je suis un développeur web full stack passionné par la création d'expériences numériques
+                        innovantes. Avec une solide expérience en développement front-end et back-end, je m'efforce de
+                        concevoir des applications web performantes et esthétiques. Mon objectif est de transformer les
+                        idées en réalité numérique, en utilisant les dernières technologies pour offrir des solutions
+                        efficaces et engageantes.</p>
+                </div>
+                <div class="about-infos">
+                    <h2>Qui suis-je ?</h2>
+                    <ul>
+                        <li><strong>Nom :</strong> Habib Adama Dioumanera</li>
+                        <li><strong>Email :</strong> <a href="mailto:johndoe@gmail.com">johndoe@gmail.com</a></li>
+                        <li><strong>Téléphone :</strong> +221 70 954 51 04</li>
+                        <li><strong>Adresse :</strong> 123 Rue Exemple, Dakar, Sénégal</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <div class="container">
+                <h1>Projets récents</h1>
+                <div class="project-container">
+                    <!-- Projet 1 -->
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="assets/images/profil.png" alt="Projet Blog">
+                        </div>
+                        <div class="project-text">
+                            <h3>Blog Platform</h3>
+                            <p>Plateforme de blogging avec éditeur markdown intégré.</p>
+                            <div class="project_tags">
+                                <span>Next.js</span>
+                                <span>TypeScript</span>
+                                <span>Tailwind</span>
+                            </div>
+                            <div class="project_links">
+                                <a href="#" title="Voir le code">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                        <path
+                                            d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                                    </svg>
+                                </a>
+                                <a href="#" title="Voir le projet">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                        <path
+                                            d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5c-1.11 0-2 .89-2 2v14c0 1.11.89 2 2 2h14c1.11 0 2-.89 2-2v-7h-2v7z" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Projet 2 -->
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="assets/images/profil.png" alt="Projet E-commerce">
+                        </div>
+                        <div class="project-text">
+                            <h3>E-commerce Platform</h3>
+                            <p>Plateforme de vente en ligne complète et sécurisée.</p>
+                            <div class="project_tags">
+                                <span>Node.js</span>
+                                <span>MongoDB</span>
+                                <span>Stripe</span>
+                            </div>
+                            <div class="project_links">
+                                <a href="#" title="Voir le code">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                        <path
+                                            d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                                    </svg>
+                                </a>
+                                <a href="#" title="Voir le projet">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                        <path
+                                            d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5c-1.11 0-2 .89-2 2v14c0 1.11.89 2 2 2h14c1.11 0 2-.89 2-2v-7h-2v7z" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Projet 3 -->
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="assets/images/profil.png" alt="Projet Mobile App">
+                        </div>
+                        <div class="project-text">
+                            <h3>Mobile App</h3>
+                            <p>Application mobile cross-platform performante.</p>
+                            <div class="project_tags">
+                                <span>React Native</span>
+                                <span>Firebase</span>
+                                <span>Redux</span>
+                            </div>
+                            <div class="project_links">
+                                <a href="#" title="Voir le code">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                        <path
+                                            d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                                    </svg>
+                                </a>
+                                <a href="#" title="Voir le projet">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                        <path
+                                            d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5c-1.11 0-2 .89-2 2v14c0 1.11.89 2 2 2h14c1.11 0 2-.89 2-2v-7h-2v7z" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Projet 4 -->
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="assets/images/profil.png" alt="Projet Dashboard">
+                        </div>
+                        <div class="project-text">
+                            <h3>Analytics Dashboard</h3>
+                            <p>Tableau de bord analytique avec visualisations avancées.</p>
+                            <div class="project_tags">
+                                <span>Vue.js</span>
+                                <span>D3.js</span>
+                                <span>Chart.js</span>
+                            </div>
+                            <div class="project_links">
+                                <a href="#" title="Voir le code">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                        <path
+                                            d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                                    </svg>
+                                </a>
+                                <a href="#" title="Voir le projet">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                        <path
+                                            d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5c-1.11 0-2 .89-2 2v14c0 1.11.89 2 2 2h14c1.11 0 2-.89 2-2v-7h-2v7z" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Projet 5 -->
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="assets/images/profil.png" alt="Projet Blog">
+                        </div>
+                        <div class="project-text">
+                            <h3>Blog Platform</h3>
+                            <p>Plateforme de blogging avec éditeur markdown intégré.</p>
+                            <div class="project_tags">
+                                <span>Next.js</span>
+                                <span>TypeScript</span>
+                                <span>Tailwind</span>
+                            </div>
+                            <div class="project_links">
+                                <a href="#" title="Voir le code">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                        <path
+                                            d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                                    </svg>
+                                </a>
+                                <a href="#" title="Voir le projet">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                        <path
+                                            d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5c-1.11 0-2 .89-2 2v14c0 1.11.89 2 2 2h14c1.11 0 2-.89 2-2v-7h-2v7z" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contrôles du carousel -->
+                <div class="carousel-controls">
+                    <button class="carousel-btn prev-btn" aria-label="Projets précédents">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+
+                    <div class="carousel-indicators">
+                        <!-- Les indicateurs seront ajoutés dynamiquement par JavaScript -->
+                    </div>
+
+                    <button class="carousel-btn next-btn" aria-label="Projets suivants">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION COMPÉTENCES -->
+        <section id="skills">
+            <div class="container">
+                <h1>Mes Compétences</h1>
+
+                <div class="skills-content">
+                    <!-- PARTIE GAUCHE : Barres de progression par technologie -->
+                    <div class="skills-progress">
+                        <!-- Frontend Technologies -->
+                        <div class="skill-category">
+                            <h3><i class="fas fa-code"></i>Frontend</h3>
+
+                            <div class="skill-item">
+                                <div class="skill-name">
+                                    <span>HTML5</span>
+                                    <span class="skill-percent">95%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" data-level="95"></div>
+                                </div>
+                            </div>
+
+                            <div class="skill-item">
+                                <div class="skill-name">
+                                    <span>CSS3</span>
+                                    <span class="skill-percent">90%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" data-level="90"></div>
+                                </div>
+                            </div>
+
+                            <div class="skill-item">
+                                <div class="skill-name">
+                                    <span>JavaScript</span>
+                                    <span class="skill-percent">85%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" data-level="85"></div>
+                                </div>
+                            </div>
+
+                            <div class="skill-item">
+                                <div class="skill-name">
+                                    <span>React</span>
+                                    <span class="skill-percent">80%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" data-level="80"></div>
+                                </div>
+                            </div>
+
+                            <div class="skill-item">
+                                <div class="skill-name">
+                                    <span>Vue.js</span>
+                                    <span class="skill-percent">75%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" data-level="75"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Backend Technologies -->
+                        <div class="skill-category">
+                            <h3><i class="fas fa-server"></i>Backend</h3>
+
+                            <div class="skill-item">
+                                <div class="skill-name">
+                                    <span>Node.js</span>
+                                    <span class="skill-percent">85%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" data-level="85"></div>
+                                </div>
+                            </div>
+
+                            <div class="skill-item">
+                                <div class="skill-name">
+                                    <span>Express.js</span>
+                                    <span class="skill-percent">80%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" data-level="80"></div>
+                                </div>
+                            </div>
+
+                            <div class="skill-item">
+                                <div class="skill-name">
+                                    <span>Python</span>
+                                    <span class="skill-percent">75%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" data-level="75"></div>
+                                </div>
+                            </div>
+
+                            <div class="skill-item">
+                                <div class="skill-name">
+                                    <span>PHP</span>
+                                    <span class="skill-percent">70%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" data-level="70"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Database Technologies -->
+                        <div class="skill-category">
+                            <h3><i class="fas fa-database"></i> Bases de données</h3>
+
+                            <div class="skill-item">
+                                <div class="skill-name">
+                                    <span>MySQL</span>
+                                    <span class="skill-percent">85%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" data-level="85"></div>
+                                </div>
+                            </div>
+
+                            <div class="skill-item">
+                                <div class="skill-name">
+                                    <span>MongoDB</span>
+                                    <span class="skill-percent">80%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" data-level="80"></div>
+                                </div>
+                            </div>
+
+                            <div class="skill-item">
+                                <div class="skill-name">
+                                    <span>PostgreSQL</span>
+                                    <span class="skill-percent">75%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" data-level="75"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PARTIE DROITE : Technologies sous forme de cartes -->
+                    <div class="skills-tech">
+                        <h3>Technologies maîtrisées</h3>
+                        <div class="tech-grid">
+                            <!-- Frontend -->
+                            <div class="tech-card" data-category="frontend" data-skill="html">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg"
+                                    alt="HTML5">
+                            </div>
+                            <div class="tech-card" data-category="frontend" data-skill="css">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg"
+                                    alt="CSS3">
+                            </div>
+                            <div class="tech-card" data-category="frontend" data-skill="javascript">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
+                                    alt="JavaScript">
+                            </div>
+                            <div class="tech-card" data-category="frontend" data-skill="react">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
+                                    alt="React">
+                            </div>
+                            <div class="tech-card" data-category="frontend" data-skill="vue">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg"
+                                    alt="Vue.js">
+                            </div>
+                            <div class="tech-card" data-category="frontend" data-skill="angular">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angularjs/angularjs-original.svg"
+                                    alt="Angular">
+                            </div>
+                            <div class="tech-card" data-category="frontend" data-skill="typescript">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg"
+                                    alt="TypeScript">
+                            </div>
+                            <div class="tech-card" data-category="frontend" data-skill="bootstrap">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg"
+                                    alt="Bootstrap">
+                            </div>
+                            <div class="tech-card" data-category="frontend" data-skill="sass">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sass/sass-original.svg"
+                                    alt="Sass">
+                            </div>
+                            <div class="tech-card" data-category="frontend" data-skill="tailwind">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-plain.svg"
+                                    alt="Tailwind CSS">
+                            </div>
+
+                            <!-- Backend -->
+                            <div class="tech-card" data-category="backend" data-skill="nodejs">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg"
+                                    alt="Node.js">
+                            </div>
+                            <div class="tech-card" data-category="backend" data-skill="express">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg"
+                                    alt="Express">
+                            </div>
+                            <div class="tech-card" data-category="backend" data-skill="python">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"
+                                    alt="Python">
+                            </div>
+                            <div class="tech-card" data-category="backend" data-skill="django">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg"
+                                    alt="Django">
+                            </div>
+                            <div class="tech-card" data-category="backend" data-skill="java">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg"
+                                    alt="Java">
+                            </div>
+                            <div class="tech-card" data-category="backend" data-skill="php">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg"
+                                    alt="PHP">
+                            </div>
+                            <div class="tech-card" data-category="backend" data-skill="laravel">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-plain.svg"
+                                    alt="Laravel">
+                            </div>
+
+                            <!-- Bases de données -->
+                            <div class="tech-card" data-category="database" data-skill="mongodb">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg"
+                                    alt="MongoDB">
+                            </div>
+                            <div class="tech-card" data-category="database" data-skill="mysql">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg"
+                                    alt="MySQL">
+                            </div>
+                            <div class="tech-card" data-category="database" data-skill="postgresql">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg"
+                                    alt="PostgreSQL">
+                            </div>
+                            <div class="tech-card" data-category="database" data-skill="firebase">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg"
+                                    alt="Firebase">
+                            </div>
+
+                            <!-- Mobile -->
+                            <div class="tech-card" data-category="mobile" data-skill="react">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
+                                    alt="React Native">
+                            </div>
+                            <div class="tech-card" data-category="mobile" data-skill="flutter">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg"
+                                    alt="Flutter">
+                            </div>
+
+                            <!-- DevOps & Outils -->
+                            <div class="tech-card" data-category="devops" data-skill="git">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg"
+                                    alt="Git">
+                            </div>
+                            <div class="tech-card" data-category="devops" data-skill="docker">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg"
+                                    alt="Docker">
+                            </div>
+                            <div class="tech-card" data-category="devops" data-skill="aws">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/aws/aws-original.svg"
+                                    alt="AWS">
+                            </div>
+                            <div class="tech-card" data-category="devops" data-skill="nginx">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nginx/nginx-original.svg"
+                                    alt="Nginx">
+                            </div>
+                            <div class="tech-card" data-category="devops" data-skill="linux">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg"
+                                    alt="Linux">
+                            </div>
+                        </div>
+
+                        <!-- Légende des filtres -->
+                        <div class="tech-filters">
+                            <button class="filter-btn active" data-filter="all">Tous</button>
+                            <button class="filter-btn" data-filter="frontend">Frontend</button>
+                            <button class="filter-btn" data-filter="backend">Backend</button>
+                            <button class="filter-btn" data-filter="database">Bases de données</button>
+                            <button class="filter-btn" data-filter="mobile">Mobile</button>
+                            <button class="filter-btn" data-filter="devops">DevOps</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION CONTACT SIMPLIFIÉE -->
+        <section id="contact">
+            <div class="container">
+                <div class="contact-header">
+                    <h1>Contactez-moi</h1>
+                    <p class="contact-subtitle">Discutons de votre projet ou répondons à vos questions</p>
+                </div>
+
+                <div class="contact-form-wrapper">
+                    <form id="contactForm" class="contact-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Nom complet <span class="required">*</span></label>
+                                <input type="text" id="name" name="name" required placeholder="Votre nom">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">Email <span class="required">*</span></label>
+                                <input type="email" id="email" name="email" required placeholder="votre@email.com">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject">Sujet <span class="required">*</span></label>
+                            <input type="text" id="subject" name="subject" required placeholder="Sujet du message">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Message <span class="required">*</span></label>
+                            <textarea id="message" name="message" rows="6" required
+                                placeholder="Décrivez votre projet ou votre question..."></textarea>
+                        </div>
+
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-paper-plane"></i>
+                            <span>Envoyer le message</span>
+                        </button>
+
+                        <div class="form-status" id="formStatus"></div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER SIMPLE -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <!-- Copyright -->
+                <div class="copyright">
+                    <p>&copy; <span id="current-year">2024</span> Habib Adama Dioumanera. Tous droits réservés.</p>
+                </div>
+
+                <!-- Liens sociaux -->
+                <div class="social-links">
+                    <a href="https://github.com/votreusername" target="_blank" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://linkedin.com/in/votreusername" target="_blank" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://x.com/tonusername" target="_blank" aria-label="X (Twitter)">
+                        <i class="fab fa-x-twitter"></i>
+                    </a>
+                    <a href="mailto:johndoe@gmail.com" aria-label="Email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- BOUTON RETOUR EN HAUT -->
+    <button id="backToTop" class="back-to-top" aria-label="Retour en haut de la page">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <script src="https://unpkg.com/typed.js@3.0.0/dist/typed.umd.js"></script>
+    <script src="assets/js/script.js"></script>
+</body>
+
+</html>
