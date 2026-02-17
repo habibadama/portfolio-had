@@ -765,7 +765,6 @@ nav {
 
 .project-image:hover {
   transform: scale(1.02);
-  border-color: var(--primary-light);
 }
 
 .project-image img {
