@@ -739,13 +739,13 @@ nav {
   background: var(--card-bg);
   color: var(--text-color);
   border-radius: 25px;
-  padding: 20px;
+  padding: 15px;
   display: none;
   flex-direction: column;
   overflow: hidden;
   box-shadow: var(--card-shadow);
   border: 1px solid var(--border-color);
-  height: 400px;
+  height: 480px;
   opacity: 0;
   transform: translateY(20px);
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -765,16 +765,17 @@ nav {
 
 .project-image {
   width: 100%;
-  height: 200px;
+  height: 320px;
   overflow: hidden;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   border: 2px solid var(--border-color);
-  border-radius: 10px;
-  margin-bottom: 15px;
-  transition: border-color var(--bg-transition);
+  border-radius: 12px;
+  margin-bottom: 12px;
+  transition: border-color var(--bg-transition), transform 0.3s ease;
 }
 
 .project-image:hover {
+  transform: scale(1.02);
   border-color: var(--primary-light);
 }
 
@@ -783,53 +784,43 @@ nav {
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: transform 0.5s ease;
+}
+
+.project-image:hover img {
+  transform: scale(1.1);
+}
+
+.project-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .project-text h3 {
-  margin: 6px 0;
-  font-size: var(--fs-xl);
+  margin: 5px 0 4px;
+  font-size: var(--fs-lg);
   color: var(--text-color);
+  line-height: 1.3;
 }
 
 .project-text p {
   font-size: var(--fs-sm);
   color: var(--text-secondary);
-  margin-bottom: 8px;
-}
-
-.project_tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 8px;
-}
-
-.project_tags span {
-  background: var(--tag-bg);
-  color: var(--tag-text);
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  border: 1px solid transparent;
-}
-
-.project_tags span:hover {
-  background: var(--tag-hover);
-  transform: translateY(-2px);
+  margin-bottom: 10px;
+  line-height: 1.4;
 }
 
 .project_links {
   display: flex;
-  gap: 10px;
-  margin-top: 8px;
+  gap: 8px;
+  margin-top: 5px;
 }
 
 .project_links a {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
   background: var(--primary-color);
   color: var(--text-color);
   display: flex;
@@ -1641,11 +1632,11 @@ footer {
   
   /* ===== SECTION HERO - TEXTE POUSSÉ VERS LE BAS ===== */
   #hero {
-    padding-top: clamp(140px, 15vh, 160px);  /* AUGMENTÉ de 100px → 140px */
+    padding-top: clamp(140px, 15vh, 160px);
     padding-bottom: clamp(40px, 5vh, 60px);
     min-height: 100vh;
     display: flex;
-    align-items: flex-start;  /* CHANGÉ de center → flex-start pour coller en haut */
+    align-items: flex-start;
   }
   
   #hero .container {
@@ -1654,13 +1645,12 @@ footer {
     gap: clamp(20px, 3vh, 30px);
   }
   
-  /* Optionnel : Ajouter plus d'espace au premier élément du texte */
   .hero-text {
-    margin-top: 20px;  /* Espace supplémentaire */
+    margin-top: 20px;
   }
   
   .hero-text h4 {
-    margin-top: 10px;  /* Petit espace en haut du sous-titre */
+    margin-top: 10px;
   }
   
   /* BOUTON DOWNLOAD CV - VERSION MOBILE RÉDUITE */
@@ -1675,7 +1665,6 @@ footer {
     font-size: 1rem;
   }
   
-  /* Reste du CSS mobile inchangé... */
   #about,
   #projects,
   #skills,
@@ -1850,11 +1839,34 @@ footer {
     right: 25px;
     font-size: 1.1rem;
   }
+
+  .project-image {
+    height: 260px;
+  }
+  
+  .project-card {
+    height: 420px;
+    padding: 12px;
+  }
+  
+  .project-text h3 {
+    font-size: var(--fs-base);
+    margin: 4px 0 3px;
+  }
+  
+  .project-text p {
+    font-size: 0.8rem;
+    margin-bottom: 8px;
+  }
+  
+  .project_links a {
+    width: 32px;
+    height: 32px;
+  }
 }
 
 /* PETITS MOBILES (361px - 480px) */
 @media screen and (min-width: 361px) and (max-width: 480px) {
-  /* Bouton CV encore plus petit pour très petits écrans */
   .download-cv_btn {
     padding: 0.7rem 1.3rem;
     font-size: 0.85rem;
@@ -1877,6 +1889,10 @@ footer {
   
   #contact .contact-header h1 {
     font-size: 1.6rem;
+  }
+  
+  .contact-subtitle {
+    font-size: 0.9rem;
   }
   
   .form-group input,
@@ -1911,11 +1927,19 @@ footer {
   .skill-item {
     margin-bottom: 15px;
   }
+  
+  .project-image {
+    height: 240px;
+  }
+  
+  .project-card {
+    height: 400px;
+    padding: 10px;
+  }
 }
 
 /* TRÈS PETITS MOBILES (≤ 360px) */
 @media screen and (max-width: 360px) {
-  /* Bouton CV version ultra-compacte */
   .download-cv_btn {
     padding: 0.6rem 1.2rem;
     font-size: 0.8rem;
@@ -1952,6 +1976,29 @@ footer {
   .submit-btn {
     padding: 12px;
     font-size: 0.9rem;
+  }
+  
+  .project-image {
+    height: 220px;
+  }
+  
+  .project-card {
+    height: 380px;
+    padding: 8px;
+  }
+  
+  .project-text h3 {
+    font-size: 0.95rem;
+  }
+  
+  .project-text p {
+    font-size: 0.75rem;
+    margin-bottom: 6px;
+  }
+  
+  .project_links a {
+    width: 28px;
+    height: 28px;
   }
 }
 
