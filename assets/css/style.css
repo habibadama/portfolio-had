@@ -200,6 +200,19 @@ html {
 }
 
 /* ===================================
+   TITRES DE SECTION UNIFORMISÉS
+=================================== */
+#projects .container > h1,
+#skills .container > h1,
+#contact .container > h1,
+.contact-header h1 {
+  text-align: center;
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin-bottom: 50px;
+  color: var(--text-color);
+}
+
+/* ===================================
    HEADER & NAVIGATION
 =================================== */
 header {
@@ -311,27 +324,6 @@ nav {
   color: #94a3b8;
   font-size: 11px;
   z-index: 1;
-}
-
-/* Ajustement responsive pour très petits écrans */
-@media screen and (max-width: 480px) {
-  .theme-switch {
-    width: 42px;
-    height: 22px;
-  }
-  
-  .theme-switch .slider::before {
-    width: 16px;
-    height: 16px;
-  }
-  
-  .theme-switch input:checked + .slider::before {
-    transform: translateX(20px);
-  }
-  
-  .icon-sun, .icon-moon {
-    font-size: 10px;
-  }
 }
 
 /* ===================================
@@ -486,7 +478,7 @@ nav {
   50% { transform: translateY(-10px); }
 }
 
-/* BOUTON DOWNLOAD CV - Version desktop */
+/* BOUTON DOWNLOAD CV */
 .download-cv_btn {
   margin-top: 20px;
   display: inline-flex;
@@ -721,13 +713,6 @@ nav {
 /* ===================================
    SECTION PROJETS AVEC CAROUSEL
 =================================== */
-#projects .container > h1 {
-  text-align: center;
-  font-size: clamp(2rem, 4vw, 3rem);
-  margin-bottom: 50px;
-  color: var(--text-color);
-}
-
 .project-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -909,13 +894,6 @@ nav {
 /* ===================================
    SECTION COMPÉTENCES
 =================================== */
-#skills .container > h1 {
-  text-align: center;
-  font-size: clamp(2rem, 4vw, 3rem);
-  margin-bottom: 60px;
-  color: var(--text-color);
-}
-
 .skills-content {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1194,12 +1172,6 @@ nav {
   margin-left: auto;
   margin-right: auto;
   padding: 0 20px;
-}
-
-#contact .contact-header h1 {
-  font-size: clamp(1.8rem, 4vw, 3rem);
-  color: var(--text-color);
-  margin-bottom: 12px;
 }
 
 .contact-subtitle {
@@ -1559,6 +1531,15 @@ footer {
     padding-right: 20px;
   }
   
+  /* TITRES DE SECTION - VERSION MOBILE */
+  #projects .container > h1,
+  #skills .container > h1,
+  #contact .container > h1,
+  .contact-header h1 {
+    font-size: clamp(1.8rem, 5vw, 2.2rem);
+    margin-bottom: 30px;
+  }
+  
   .hamburger {
     display: flex;
     z-index: 1002;
@@ -1630,7 +1611,26 @@ footer {
     z-index: 1001;
   }
   
-  /* ===== SECTION HERO - TEXTE POUSSÉ VERS LE BAS ===== */
+  /* SWITCH DARK MODE - MOBILE */
+  .theme-switch {
+    width: 42px;
+    height: 22px;
+  }
+  
+  .theme-switch .slider::before {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .theme-switch input:checked + .slider::before {
+    transform: translateX(20px);
+  }
+  
+  .icon-sun, .icon-moon {
+    font-size: 10px;
+  }
+  
+  /* SECTION HERO */
   #hero {
     padding-top: clamp(140px, 15vh, 160px);
     padding-bottom: clamp(40px, 5vh, 60px);
@@ -1653,7 +1653,7 @@ footer {
     margin-top: 10px;
   }
   
-  /* BOUTON DOWNLOAD CV - VERSION MOBILE RÉDUITE */
+  /* BOUTON DOWNLOAD CV */
   .download-cv_btn {
     padding: 0.75rem 1.5rem;
     font-size: 0.9rem;
@@ -1665,6 +1665,7 @@ footer {
     font-size: 1rem;
   }
   
+  /* SECTIONS */
   #about,
   #projects,
   #skills,
@@ -1682,11 +1683,50 @@ footer {
     padding: clamp(40px, 6vh, 50px) clamp(15px, 4vw, 20px) clamp(25px, 4vh, 30px);
   }
   
+  /* PROJETS - CORRECTION ESPACEMENT */
   .project-container {
     grid-template-columns: 1fr;
     gap: 25px;
   }
   
+  .project-card {
+    height: auto;
+    min-height: 380px;
+    padding: 12px;
+  }
+  
+  .project-image {
+    height: 260px;
+  }
+  
+  .project-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .project-text h3 {
+    font-size: var(--fs-base);
+    margin: 4px 0 3px;
+  }
+  
+  .project-text p {
+    font-size: 0.8rem;
+    margin-bottom: 0;
+  }
+  
+  .project_links {
+    margin-top: auto;
+    padding-top: 8px;
+  }
+  
+  .project_links a {
+    width: 32px;
+    height: 32px;
+  }
+  
+  /* CAROUSEL */
   .carousel-controls {
     gap: 15px;
     margin-top: 30px;
@@ -1711,6 +1751,7 @@ footer {
     gap: 8px;
   }
   
+  /* COMPÉTENCES */
   .skills-content {
     grid-template-columns: 1fr;
     gap: 40px;
@@ -1753,6 +1794,7 @@ footer {
     font-size: var(--fs-xs);
   }
   
+  /* CONTACT */
   #contact {
     padding: 40px 0;
     min-height: calc(100vh - 70px);
@@ -1772,11 +1814,6 @@ footer {
   .contact-header {
     margin-bottom: 30px;
     padding: 0 15px;
-  }
-  
-  #contact .contact-header h1 {
-    font-size: clamp(1.5rem, 5vw, 2rem);
-    margin-bottom: 10px;
   }
   
   .contact-subtitle {
@@ -1822,6 +1859,7 @@ footer {
     margin-top: 15px;
   }
   
+  /* FOOTER */
   footer {
     padding: 30px 0;
   }
@@ -1839,34 +1877,17 @@ footer {
     right: 25px;
     font-size: 1.1rem;
   }
-
-  .project-image {
-    height: 260px;
-  }
-  
-  .project-card {
-    height: 420px;
-    padding: 12px;
-  }
-  
-  .project-text h3 {
-    font-size: var(--fs-base);
-    margin: 4px 0 3px;
-  }
-  
-  .project-text p {
-    font-size: 0.8rem;
-    margin-bottom: 8px;
-  }
-  
-  .project_links a {
-    width: 32px;
-    height: 32px;
-  }
 }
 
 /* PETITS MOBILES (361px - 480px) */
 @media screen and (min-width: 361px) and (max-width: 480px) {
+  #projects .container > h1,
+  #skills .container > h1,
+  #contact .container > h1,
+  .contact-header h1 {
+    font-size: clamp(1.6rem, 5vw, 1.8rem);
+  }
+  
   .download-cv_btn {
     padding: 0.7rem 1.3rem;
     font-size: 0.85rem;
@@ -1885,10 +1906,6 @@ footer {
   .contact-header {
     margin-bottom: 25px;
     padding: 0 10px;
-  }
-  
-  #contact .contact-header h1 {
-    font-size: 1.6rem;
   }
   
   .contact-subtitle {
@@ -1933,13 +1950,25 @@ footer {
   }
   
   .project-card {
-    height: 400px;
+    min-height: 360px;
     padding: 10px;
+  }
+  
+  .project_links {
+    padding-top: 6px;
   }
 }
 
 /* TRÈS PETITS MOBILES (≤ 360px) */
 @media screen and (max-width: 360px) {
+  #projects .container > h1,
+  #skills .container > h1,
+  #contact .container > h1,
+  .contact-header h1 {
+    font-size: clamp(1.4rem, 5vw, 1.5rem);
+    margin-bottom: 25px;
+  }
+  
   .download-cv_btn {
     padding: 0.6rem 1.2rem;
     font-size: 0.8rem;
@@ -1958,10 +1987,6 @@ footer {
   
   .contact-header {
     padding: 0 5px;
-  }
-  
-  #contact .contact-header h1 {
-    font-size: 1.4rem;
   }
   
   .contact-subtitle {
@@ -1983,7 +2008,7 @@ footer {
   }
   
   .project-card {
-    height: 380px;
+    min-height: 340px;
     padding: 8px;
   }
   
@@ -1993,7 +2018,10 @@ footer {
   
   .project-text p {
     font-size: 0.75rem;
-    margin-bottom: 6px;
+  }
+  
+  .project_links {
+    padding-top: 5px;
   }
   
   .project_links a {
