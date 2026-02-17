@@ -208,8 +208,48 @@ html {
 .contact-header h1 {
   text-align: center;
   font-size: clamp(2rem, 4vw, 3rem);
-  margin-bottom: 50px;
+  margin: 0 0 50px 0;
+  padding: 0;
   color: var(--text-color);
+}
+
+/* ===================================
+   SECTIONS - PADDING UNIFORME
+=================================== */
+#about,
+#projects,
+#skills,
+#contact {
+  padding: 100px 0;
+  background: var(--bg-color);
+  position: relative;
+  overflow: hidden;
+  transition: background-color var(--bg-transition);
+}
+
+#about::before,
+#projects::before,
+#skills::before,
+#contact::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(
+    90deg,
+    var(--primary-color) 0%,
+    var(--secondary-color) 50%,
+    var(--primary-light) 100%
+  );
+  animation: gradientMove 8s ease infinite;
+  background-size: 200% 100%;
+}
+
+@keyframes gradientMove {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
 
 /* ===================================
@@ -270,7 +310,7 @@ nav {
 }
 
 /* ===================================
-   SWITCH DARK MODE - VERSION COMPACTE
+   SWITCH DARK MODE
 =================================== */
 .theme-switch {
   position: relative;
@@ -535,42 +575,6 @@ nav {
 /* ===================================
    SECTION ABOUT
 =================================== */
-#about,
-#projects,
-#skills,
-#contact {
-  padding: 120px 0;
-  background: var(--bg-color);
-  position: relative;
-  overflow: hidden;
-  transition: background-color var(--bg-transition);
-}
-
-#about::before,
-#projects::before,
-#skills::before,
-#contact::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 6px;
-  background: linear-gradient(
-    90deg,
-    var(--primary-color) 0%,
-    var(--secondary-color) 50%,
-    var(--primary-light) 100%
-  );
-  animation: gradientMove 8s ease infinite;
-  background-size: 200% 100%;
-}
-
-@keyframes gradientMove {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
 #about .container {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1152,7 +1156,7 @@ nav {
 }
 
 /* ===================================
-   SECTION CONTACT
+   SECTION CONTACT - ESPACEMENT CORRIGÉ
 =================================== */
 #contact {
   display: flex;
@@ -1167,18 +1171,20 @@ nav {
 
 .contact-header {
   text-align: center;
-  margin-bottom: 40px;
   max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
   padding: 0 20px;
+}
+
+.contact-header h1 {
+  margin: 0 0 20px 0;  /* Espace réduit entre le h1 et le sous-titre */
 }
 
 .contact-subtitle {
   font-size: var(--fs-base);
   color: var(--text-secondary);
   line-height: 1.6;
-  margin-bottom: 0;
+  margin: 0 0 40px 0;  /* Plus de marge en haut, gardé 40px en bas */
 }
 
 .contact-form-wrapper {
@@ -1478,7 +1484,7 @@ footer {
 }
 
 /* ===================================
-   MEDIA QUERIES - VERSION MOBILE OPTIMISÉE
+   MEDIA QUERIES
 =================================== */
 
 /* TABLETTES (769px - 1024px) */
@@ -1486,6 +1492,13 @@ footer {
   .container {
     padding-left: 30px;
     padding-right: 30px;
+  }
+  
+  #projects .container > h1,
+  #skills .container > h1,
+  #contact .container > h1,
+  .contact-header h1 {
+    margin-bottom: 40px;
   }
   
   .skills-content {
@@ -1531,7 +1544,6 @@ footer {
     padding-right: 20px;
   }
   
-  /* TITRES DE SECTION - VERSION MOBILE */
   #projects .container > h1,
   #skills .container > h1,
   #contact .container > h1,
@@ -1611,7 +1623,6 @@ footer {
     z-index: 1001;
   }
   
-  /* SWITCH DARK MODE - MOBILE */
   .theme-switch {
     width: 42px;
     height: 22px;
@@ -1630,7 +1641,6 @@ footer {
     font-size: 10px;
   }
   
-  /* SECTION HERO */
   #hero {
     padding-top: clamp(140px, 15vh, 160px);
     padding-bottom: clamp(40px, 5vh, 60px);
@@ -1653,7 +1663,6 @@ footer {
     margin-top: 10px;
   }
   
-  /* BOUTON DOWNLOAD CV */
   .download-cv_btn {
     padding: 0.75rem 1.5rem;
     font-size: 0.9rem;
@@ -1665,12 +1674,11 @@ footer {
     font-size: 1rem;
   }
   
-  /* SECTIONS */
   #about,
   #projects,
   #skills,
   #contact {
-    padding: 80px 0;
+    padding: 70px 0;
   }
   
   #about .container {
@@ -1683,7 +1691,7 @@ footer {
     padding: clamp(40px, 6vh, 50px) clamp(15px, 4vw, 20px) clamp(25px, 4vh, 30px);
   }
   
-  /* PROJETS - CORRECTION ESPACEMENT */
+  /* CORRECTION PROJETS MOBILE */
   .project-container {
     grid-template-columns: 1fr;
     gap: 25px;
@@ -1726,7 +1734,6 @@ footer {
     height: 32px;
   }
   
-  /* CAROUSEL */
   .carousel-controls {
     gap: 15px;
     margin-top: 30px;
@@ -1751,7 +1758,6 @@ footer {
     gap: 8px;
   }
   
-  /* COMPÉTENCES */
   .skills-content {
     grid-template-columns: 1fr;
     gap: 40px;
@@ -1794,7 +1800,7 @@ footer {
     font-size: var(--fs-xs);
   }
   
-  /* CONTACT */
+  /* CORRECTION CONTACT MOBILE */
   #contact {
     padding: 40px 0;
     min-height: calc(100vh - 70px);
@@ -1803,22 +1809,25 @@ footer {
     justify-content: center;
   }
   
+  .contact-header {
+    padding: 0 15px;
+  }
+  
+  .contact-header h1 {
+    margin-bottom: 15px;
+  }
+  
+  .contact-subtitle {
+    font-size: var(--fs-sm);
+    margin-bottom: 30px;
+  }
+  
   .contact-form-wrapper {
     width: 90%;
     max-width: none;
     padding: 30px 25px;
     margin: 20px auto;
     border-radius: 18px;
-  }
-  
-  .contact-header {
-    margin-bottom: 30px;
-    padding: 0 15px;
-  }
-  
-  .contact-subtitle {
-    font-size: var(--fs-sm);
-    line-height: 1.5;
   }
   
   .form-row {
@@ -1859,7 +1868,6 @@ footer {
     margin-top: 15px;
   }
   
-  /* FOOTER */
   footer {
     padding: 30px 0;
   }
@@ -1886,6 +1894,7 @@ footer {
   #contact .container > h1,
   .contact-header h1 {
     font-size: clamp(1.6rem, 5vw, 1.8rem);
+    margin-bottom: 25px;
   }
   
   .download-cv_btn {
@@ -1904,12 +1913,16 @@ footer {
   }
   
   .contact-header {
-    margin-bottom: 25px;
     padding: 0 10px;
+  }
+  
+  .contact-header h1 {
+    margin-bottom: 12px;
   }
   
   .contact-subtitle {
     font-size: 0.9rem;
+    margin-bottom: 25px;
   }
   
   .form-group input,
@@ -1966,7 +1979,7 @@ footer {
   #contact .container > h1,
   .contact-header h1 {
     font-size: clamp(1.4rem, 5vw, 1.5rem);
-    margin-bottom: 25px;
+    margin-bottom: 20px;
   }
   
   .download-cv_btn {
@@ -1989,8 +2002,13 @@ footer {
     padding: 0 5px;
   }
   
+  .contact-header h1 {
+    margin-bottom: 10px;
+  }
+  
   .contact-subtitle {
     font-size: 0.85rem;
+    margin-bottom: 20px;
   }
   
   .form-group input,
@@ -2030,7 +2048,7 @@ footer {
   }
 }
 
-/* DESKTOP & GRANDS ÉCRANS (769px+) */
+/* DESKTOP (769px+) */
 @media screen and (min-width: 769px) {
   #contact {
     padding: 100px 0;
