@@ -225,65 +225,129 @@ function setupTechFilters() {
     });
 }
 
-// // --- INTERACTION ENTRE LES BARRES ET LES CARTES ---
-// function setupSkillsInteraction() {
-//     const techCards = document.querySelectorAll('.tech-card');
-//     const skillItems = document.querySelectorAll('.skill-item');
-    
-//     techCards.forEach(card => {
-//         card.addEventListener('mouseenter', function() {
-//             const skillName = this.getAttribute('data-skill');
-            
-//             techCards.forEach(c => c.classList.remove('highlighted'));
-//             skillItems.forEach(s => s.classList.remove('highlighted'));
-            
-//             this.classList.add('highlighted');
-            
-//             if (skillName) {
-//                 skillItems.forEach(item => {
-//                     const skillText = item.querySelector('.skill-name span:first-child').textContent.toLowerCase();
-//                     if (skillText.includes(skillName) || skillName.includes(skillText)) {
-//                         item.classList.add('highlighted');
-//                     }
-//                 });
-//             }
-//         });
-        
-//         card.addEventListener('mouseleave', function() {
-//             techCards.forEach(c => c.classList.remove('highlighted'));
-//             skillItems.forEach(s => s.classList.remove('highlighted'));
-//         });
-//     });
-    
-//     skillItems.forEach(item => {
-//         item.addEventListener('mouseenter', function() {
-//             const skillName = this.querySelector('.skill-name span:first-child').textContent.toLowerCase();
-            
-//             techCards.forEach(c => c.classList.remove('highlighted'));
-//             skillItems.forEach(s => s.classList.remove('highlighted'));
-            
-//             this.classList.add('highlighted');
-            
-//             techCards.forEach(card => {
-//                 const cardSkill = card.getAttribute('data-skill');
-//                 if (cardSkill && (skillName.includes(cardSkill) || cardSkill.includes(skillName))) {
-//                     card.classList.add('highlighted');
-//                 }
-//             });
-//         });
-        
-//         item.addEventListener('mouseleave', function() {
-//             techCards.forEach(c => c.classList.remove('highlighted'));
-//             skillItems.forEach(s => s.classList.remove('highlighted'));
-//         });
-//     });
-// }
-
 // --- INITIALISATION DES FONCTIONNALITÉS ---
 document.addEventListener('DOMContentLoaded', function() {
     animateProgressBars();
     setupTechFilters();
     // setupSkillsInteraction();
+    
+    const techCards = document.querySelectorAll('.tech-card');
+    techCards.forEach((card, index) => {
+        card.style.animationDelay = `${index * 0.05}s`;
+    });
+});
+
+// --- CARROUSEL D'IMAGES POUR CHAQUE PROJET ---
+function setupProjectImageCarousels() {
+    const projectCards = document.querySelectorAll('.project-card');
+    
+    projectCards.forEach(card => {
+        const container = card.querySelector('.project-image-container');
+        if (!container) return;
+        
+        const images = container.querySelectorAll('.carousel-image');
+        const prevBtn = container.querySelector('.prev-image');
+        const nextBtn = container.querySelector('.next-image');
+        const dots = container.querySelectorAll('.image-dot');
+        
+        if (images.length <= 1) return;
+        
+        let currentIndex = 0;
+        let intervalId = null;
+        let isHovering = false;
+        
+        // Fonction pour afficher une image spécifique
+        function showImage(index) {
+            // Gérer l'index circulaire
+            if (index < 0) index = images.length - 1;
+            if (index >= images.length) index = 0;
+            
+            // Mettre à jour les images
+            images.forEach(img => img.classList.remove('active'));
+            images[index].classList.add('active');
+            
+            // Mettre à jour les indicateurs
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+            
+            currentIndex = index;
+        }
+        
+        // Navigation avec les boutons
+        if (prevBtn) {
+            prevBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                showImage(currentIndex - 1);
+            });
+        }
+        
+        if (nextBtn) {
+            nextBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                showImage(currentIndex + 1);
+            });
+        }
+        
+        // Navigation avec les indicateurs
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', (e) => {
+                e.stopPropagation();
+                showImage(index);
+            });
+        });
+        
+        // Défilement automatique
+        function startAutoSlide() {
+            if (intervalId) clearInterval(intervalId);
+            intervalId = setInterval(() => {
+                if (!isHovering) {
+                    showImage(currentIndex + 1);
+                }
+            }, 3000); // Change d'image toutes les 3 secondes
+        }
+        
+        function stopAutoSlide() {
+            if (intervalId) {
+                clearInterval(intervalId);
+                intervalId = null;
+            }
+        }
+        
+        // Gérer le survol
+        container.addEventListener('mouseenter', () => {
+            isHovering = true;
+            stopAutoSlide();
+        });
+        
+        container.addEventListener('mouseleave', () => {
+            isHovering = false;
+            startAutoSlide();
+        });
+        
+        // Démarrer le défilement automatique
+        startAutoSlide();
+        
+        // Nettoyer l'intervalle quand la carte est masquée (pour les performances)
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) {
+                    stopAutoSlide();
+                } else {
+                    startAutoSlide();
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        observer.observe(card);
+    });
+}
+
+// Ajouter l'initialisation dans votre DOMContentLoaded existant
+document.addEventListener('DOMContentLoaded', function() {
+    animateProgressBars();
+    setupTechFilters();
+    setupProjectImageCarousels(); // Ajoutez cette ligne
     
     const techCards = document.querySelectorAll('.tech-card');
     techCards.forEach((card, index) => {
