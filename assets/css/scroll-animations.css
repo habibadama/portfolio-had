@@ -1,0 +1,164 @@
+/* ===================================
+   ANIMATIONS AU SCROLL
+   =================================== */
+
+/* ---- États initiaux communs ---- */
+.reveal {
+  will-change: transform, opacity;
+}
+
+/* ==========================================
+   DESKTOP & TABLETTE (640px+)
+   Animations : glissement + fade élaborés
+   ========================================== */
+@media screen and (min-width: 640px) {
+
+  /* Hero text : entre par la gauche */
+  .hero-text.reveal {
+    opacity: 0;
+    transform: translateX(-60px);
+    transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* Hero image : entre par la droite */
+  .hero-image.reveal {
+    opacity: 0;
+    transform: translateX(60px);
+    transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.2s,
+                transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.2s;
+  }
+
+  /* About content : entre par la gauche avec légère rotation */
+  .about-content.reveal {
+    opacity: 0;
+    transform: translateX(-50px) rotate(-1deg);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* About infos : entre par la droite */
+  .about-infos.reveal {
+    opacity: 0;
+    transform: translateX(50px);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.15s,
+                transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.15s;
+  }
+
+  /* Project cards : monte avec délai en cascade */
+  .project-card.reveal {
+    opacity: 0;
+    transform: translateY(50px) scale(0.95);
+    transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* Skill categories : entre alternativement gauche/droite */
+  .skill-category.reveal:nth-child(odd) {
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .skill-category.reveal:nth-child(even) {
+    opacity: 0;
+    transform: translateX(40px);
+    transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.1s,
+                transform 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.1s;
+  }
+
+  /* Skills tech : zoom + fade depuis le bas */
+  .skills-tech.reveal {
+    opacity: 0;
+    transform: translateY(40px) scale(0.97);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.2s,
+                transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.2s;
+  }
+
+  /* Contact : entrée depuis le bas avec grand mouvement */
+  .contact-form-wrapper.reveal {
+    opacity: 0;
+    transform: translateY(60px);
+    transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .contact-header.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* État visible — DESKTOP */
+  .hero-text.reveal.visible,
+  .hero-image.reveal.visible,
+  .about-content.reveal.visible,
+  .about-infos.reveal.visible,
+  .project-card.reveal.visible,
+  .skill-category.reveal.visible,
+  .skills-tech.reveal.visible,
+  .contact-form-wrapper.reveal.visible,
+  .contact-header.reveal.visible {
+    opacity: 1;
+    transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+  }
+
+  /* Délais en cascade pour les project-cards */
+  .project-card.reveal:nth-child(1) { transition-delay: 0s; }
+  .project-card.reveal:nth-child(2) { transition-delay: 0.1s; }
+  .project-card.reveal:nth-child(3) { transition-delay: 0.2s; }
+  .project-card.reveal:nth-child(4) { transition-delay: 0.3s; }
+  .project-card.reveal:nth-child(5) { transition-delay: 0.4s; }
+  .project-card.reveal:nth-child(6) { transition-delay: 0.5s; }
+}
+
+/* ==========================================
+   MOBILE (max 639px)
+   Animations : fade pur + légère montée simple
+   ========================================== */
+@media screen and (max-width: 639px) {
+
+  /* Tous les blocs : fade + montée subtile */
+  .hero-text.reveal,
+  .hero-image.reveal,
+  .about-content.reveal,
+  .about-infos.reveal,
+  .project-card.reveal,
+  .skill-category.reveal,
+  .skills-tech.reveal,
+  .contact-form-wrapper.reveal,
+  .contact-header.reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.55s ease-out,
+                transform 0.55s ease-out;
+  }
+
+  /* Décalage léger entre blocs côte à côte */
+  .hero-image.reveal     { transition-delay: 0.12s; }
+  .about-infos.reveal    { transition-delay: 0.1s; }
+  .contact-form-wrapper.reveal { transition-delay: 0.1s; }
+
+  /* Cascade project-cards sur mobile */
+  .project-card.reveal:nth-child(1) { transition-delay: 0s; }
+  .project-card.reveal:nth-child(2) { transition-delay: 0.08s; }
+  .project-card.reveal:nth-child(3) { transition-delay: 0.16s; }
+  .project-card.reveal:nth-child(4) { transition-delay: 0.24s; }
+  .project-card.reveal:nth-child(5) { transition-delay: 0.32s; }
+
+  /* État visible — MOBILE */
+  .hero-text.reveal.visible,
+  .hero-image.reveal.visible,
+  .about-content.reveal.visible,
+  .about-infos.reveal.visible,
+  .project-card.reveal.visible,
+  .skill-category.reveal.visible,
+  .skills-tech.reveal.visible,
+  .contact-form-wrapper.reveal.visible,
+  .contact-header.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

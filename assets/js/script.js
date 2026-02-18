@@ -479,6 +479,70 @@ const KeyboardShortcuts = {
   }
 };
 
+
+
+// ===================================
+// MODULE: SCROLL REVEAL ANIMATIONS
+// ===================================
+// Ajoute ce module dans ton script.js et appelle ScrollReveal.init()
+// dans le bloc DOMContentLoaded
+
+const ScrollReveal = {
+  init() {
+    this.addRevealClasses();
+    this.observeElements();
+  },
+
+  // Ajoute la classe .reveal sur tous les blocs cibles
+  addRevealClasses() {
+    const targets = [
+      '.hero-text',
+      '.hero-image',
+      '.about-content',
+      '.about-infos',
+      '.project-card',
+      '.skill-category',
+      '.skills-tech',
+      '.contact-header',
+      '.contact-form-wrapper'
+    ];
+
+    targets.forEach(selector => {
+      document.querySelectorAll(selector).forEach(el => {
+        el.classList.add('reveal');
+      });
+    });
+  },
+
+  observeElements() {
+    const isMobile = window.matchMedia('(max-width: 639px)').matches;
+
+    const options = {
+      // Sur mobile : on déclenche plus tôt (moins de marge)
+      // Sur desktop : on attend que ~15% du bloc soit visible
+      threshold: isMobile ? 0.08 : 0.15,
+      rootMargin: isMobile ? '0px 0px -30px 0px' : '0px 0px -60px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          // On arrête d'observer après l'animation (animation one-shot)
+          observer.unobserve(entry.target);
+        }
+      });
+    }, options);
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  }
+};
+
+// ===================================
+// DANS TON DOMContentLoaded, AJOUTE :
+// ScrollReveal.init();
+// ===================================
+
 // ===================================
 // INITIALISATION GLOBALE
 // ===================================
@@ -491,9 +555,15 @@ document.addEventListener('DOMContentLoaded', () => {
   ImageCarousel.init();
   SkillsManager.init();
   KeyboardShortcuts.init();
+
+  ScrollReveal.init();  //Ligne ajouter pour animation de la page
   
   console.log('Portfolio JavaScript initialisé avec succès 🚀');
 });
+
+
+
+
 
 // ===================================
 // UTILITAIRES (si nécessaire)
@@ -523,3 +593,7 @@ const Utils = {
     };
   }
 };
+
+
+
+
