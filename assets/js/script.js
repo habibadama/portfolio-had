@@ -1,6 +1,5 @@
 /**
- * Portfolio JavaScript
- * Organisation modulaire avec séparation des responsabilités
+ * Portfolio JavaScript — Version complète avec Scroll Reveal
  */
 
 // ===================================
@@ -12,7 +11,6 @@ const DOM = {
   themeToggle: document.getElementById("themeToggle"),
   backToTop: document.getElementById("backToTop"),
   body: document.body,
-  projectContainer: document.querySelector(".project-container"),
   projectCards: document.querySelectorAll(".project-card"),
   carouselPrevBtn: document.querySelector(".prev-btn"),
   carouselNextBtn: document.querySelector(".next-btn"),
@@ -28,20 +26,17 @@ const DOM = {
 const HamburgerMenu = {
   init() {
     if (!DOM.hamburger || !DOM.navMenu) return;
-    
     this.bindEvents();
   },
 
   bindEvents() {
     DOM.hamburger.addEventListener("click", () => this.toggleMenu());
-    
-    // Fermer le menu quand on clique sur un lien
-    document.querySelectorAll(".list-darkmode-menu ul li a").forEach((link) => {
+
+    document.querySelectorAll(".list-darkmode-menu ul li a").forEach(link => {
       link.addEventListener("click", () => this.closeMenu());
     });
 
-    // Fermer le menu quand on clique en dehors
-    document.addEventListener("click", (event) => this.handleClickOutside(event));
+    document.addEventListener("click", e => this.handleClickOutside(e));
   },
 
   toggleMenu() {
@@ -54,11 +49,10 @@ const HamburgerMenu = {
     DOM.navMenu.classList.remove("active");
   },
 
-  handleClickOutside(event) {
-    const isClickInsideMenu = DOM.navMenu?.contains(event.target);
-    const isClickOnHamburger = DOM.hamburger?.contains(event.target);
-
-    if (!isClickInsideMenu && !isClickOnHamburger && DOM.navMenu?.classList.contains("active")) {
+  handleClickOutside(e) {
+    const insideMenu = DOM.navMenu?.contains(e.target);
+    const onHamburger = DOM.hamburger?.contains(e.target);
+    if (!insideMenu && !onHamburger && DOM.navMenu?.classList.contains("active")) {
       this.closeMenu();
     }
   }
@@ -69,49 +63,37 @@ const HamburgerMenu = {
 // ===================================
 const ThemeManager = {
   STORAGE_KEY: "theme",
-  DARK_THEME: "theme-dark",
-  LIGHT_THEME: "theme-light",
+  DARK: "theme-dark",
+  LIGHT: "theme-light",
 
   init() {
     if (!DOM.themeToggle) return;
-    
     this.loadSavedTheme();
-    this.bindEvents();
-  },
-
-  bindEvents() {
     DOM.themeToggle.addEventListener("change", () => this.toggleTheme());
   },
 
   loadSavedTheme() {
-    const savedTheme = localStorage.getItem(this.STORAGE_KEY);
-    
-    if (savedTheme === this.DARK_THEME) {
-      this.applyDarkTheme();
-    } else {
-      this.applyLightTheme();
-    }
+    const saved = localStorage.getItem(this.STORAGE_KEY);
+    saved === this.DARK ? this.applyDark() : this.applyLight();
   },
 
-  applyDarkTheme() {
-    DOM.body.classList.remove(this.LIGHT_THEME);
-    DOM.body.classList.add(this.DARK_THEME);
+  applyDark() {
+    DOM.body.classList.replace(this.LIGHT, this.DARK) || DOM.body.classList.add(this.DARK);
     if (DOM.themeToggle) DOM.themeToggle.checked = true;
   },
 
-  applyLightTheme() {
-    DOM.body.classList.add(this.LIGHT_THEME);
-    DOM.body.classList.remove(this.DARK_THEME);
+  applyLight() {
+    DOM.body.classList.replace(this.DARK, this.LIGHT) || DOM.body.classList.add(this.LIGHT);
     if (DOM.themeToggle) DOM.themeToggle.checked = false;
   },
 
   toggleTheme() {
     if (DOM.themeToggle.checked) {
-      DOM.body.classList.replace(this.LIGHT_THEME, this.DARK_THEME);
-      localStorage.setItem(this.STORAGE_KEY, this.DARK_THEME);
+      DOM.body.classList.replace(this.LIGHT, this.DARK);
+      localStorage.setItem(this.STORAGE_KEY, this.DARK);
     } else {
-      DOM.body.classList.replace(this.DARK_THEME, this.LIGHT_THEME);
-      localStorage.setItem(this.STORAGE_KEY, this.LIGHT_THEME);
+      DOM.body.classList.replace(this.DARK, this.LIGHT);
+      localStorage.setItem(this.STORAGE_KEY, this.LIGHT);
     }
   }
 };
@@ -120,281 +102,168 @@ const ThemeManager = {
 // MODULE: BACK TO TOP
 // ===================================
 const BackToTop = {
-  SCROLL_THRESHOLD: 300,
+  THRESHOLD: 300,
 
   init() {
     if (!DOM.backToTop) return;
-    
-    this.bindEvents();
-    this.checkInitialScroll();
-  },
-
-  bindEvents() {
     window.addEventListener("scroll", () => this.handleScroll());
     DOM.backToTop.addEventListener("click", () => this.scrollToTop());
-    
-    // Accessibilité clavier
-    DOM.backToTop.addEventListener("keypress", (e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        this.scrollToTop();
-      }
+    DOM.backToTop.addEventListener("keypress", e => {
+      if (e.key === "Enter" || e.key === " ") this.scrollToTop();
     });
+    this.handleScroll();
   },
 
   handleScroll() {
-    if (window.pageYOffset > this.SCROLL_THRESHOLD) {
-      DOM.backToTop.classList.add("visible");
-    } else {
-      DOM.backToTop.classList.remove("visible");
-    }
+    DOM.backToTop.classList.toggle("visible", window.pageYOffset > this.THRESHOLD);
   },
 
   scrollToTop() {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-  },
-
-  checkInitialScroll() {
-    if (window.pageYOffset > this.SCROLL_THRESHOLD) {
-      DOM.backToTop.classList.add("visible");
-    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 };
 
 // ===================================
-// MODULE: PROJECT CAROUSEL (Principal)
+// MODULE: PROJECT CAROUSEL (principal)
 // ===================================
 const ProjectCarousel = {
   currentIndex: 0,
   cardsPerView: 3,
-  
+
   init() {
     const { projectCards, carouselPrevBtn, carouselNextBtn, carouselIndicators } = DOM;
-    
     if (!projectCards.length || !carouselPrevBtn || !carouselNextBtn || !carouselIndicators) return;
-    
+
     this.totalCards = projectCards.length;
     this.totalPages = Math.ceil(this.totalCards / this.cardsPerView);
-    
+
     this.createIndicators();
     this.bindEvents();
     this.showCards();
   },
 
   createIndicators() {
-    const { carouselIndicators } = DOM;
-    
     for (let i = 0; i < this.totalPages; i++) {
       const dot = document.createElement("button");
-      dot.className = "carousel-dot";
-      dot.setAttribute("aria-label", `Aller à la page ${i + 1}`);
-      if (i === 0) dot.classList.add("active");
-      
+      dot.className = "carousel-dot" + (i === 0 ? " active" : "");
+      dot.setAttribute("aria-label", `Page ${i + 1}`);
       dot.addEventListener("click", () => this.goToPage(i));
-      carouselIndicators.appendChild(dot);
+      DOM.carouselIndicators.appendChild(dot);
     }
   },
 
   bindEvents() {
-    const { carouselPrevBtn, carouselNextBtn } = DOM;
-    
-    carouselPrevBtn.addEventListener("click", () => this.prevPage());
-    carouselNextBtn.addEventListener("click", () => this.nextPage());
-    
-    // Navigation clavier
-    document.addEventListener("keydown", (e) => this.handleKeyNavigation(e));
+    DOM.carouselPrevBtn.addEventListener("click", () => this.prevPage());
+    DOM.carouselNextBtn.addEventListener("click", () => this.nextPage());
+    document.addEventListener("keydown", e => this.handleKeyNavigation(e));
   },
 
   showCards() {
-    const { projectCards } = DOM;
-    const startIndex = this.currentIndex * this.cardsPerView;
-    const endIndex = startIndex + this.cardsPerView;
+    const start = this.currentIndex * this.cardsPerView;
+    const end   = start + this.cardsPerView;
 
-    projectCards.forEach((card, index) => {
-      card.style.display = "none";
+    DOM.projectCards.forEach((card, i) => {
+      // Masque et réinitialise toutes les cartes
+      card.style.display   = "none";
+      card.style.opacity   = "0";
+      card.style.transform = "translateY(25px)";
+      card.style.transition = "none";
       card.classList.remove("active");
-      
-      if (index >= startIndex && index < endIndex) {
+
+      if (i >= start && i < end) {
+        // Rend la carte visible PUIS anime
         card.style.display = "flex";
-        setTimeout(() => {
-          card.classList.add("active");
-        }, (index - startIndex) * 100);
+        card.classList.add("active");
       }
     });
 
     this.updateIndicators();
     this.updateButtons();
+
+    // Lance l'animation après que display:flex est appliqué
+    // Le setTimeout laisse le navigateur calculer le layout
+    setTimeout(() => ScrollReveal.animateProjectCards(), 30);
   },
 
   updateIndicators() {
-    const dots = document.querySelectorAll(".carousel-dot");
-    dots.forEach((dot, index) => {
-      dot.classList.toggle("active", index === this.currentIndex);
+    document.querySelectorAll(".carousel-dot").forEach((dot, i) => {
+      dot.classList.toggle("active", i === this.currentIndex);
     });
   },
 
   updateButtons() {
-    const { carouselPrevBtn, carouselNextBtn } = DOM;
-    carouselPrevBtn.disabled = this.currentIndex === 0;
-    carouselNextBtn.disabled = this.currentIndex === this.totalPages - 1;
+    DOM.carouselPrevBtn.disabled = this.currentIndex === 0;
+    DOM.carouselNextBtn.disabled = this.currentIndex === this.totalPages - 1;
   },
 
-  goToPage(pageIndex) {
-    this.currentIndex = pageIndex;
-    this.showCards();
-  },
-
-  prevPage() {
-    if (this.currentIndex > 0) {
-      this.currentIndex--;
-      this.showCards();
-    }
-  },
-
-  nextPage() {
-    if (this.currentIndex < this.totalPages - 1) {
-      this.currentIndex++;
-      this.showCards();
-    }
-  },
+  goToPage(i) { this.currentIndex = i; this.showCards(); },
+  prevPage()  { if (this.currentIndex > 0) { this.currentIndex--; this.showCards(); } },
+  nextPage()  { if (this.currentIndex < this.totalPages - 1) { this.currentIndex++; this.showCards(); } },
 
   handleKeyNavigation(e) {
-    if (e.key === "ArrowLeft" && this.currentIndex > 0) {
-      this.currentIndex--;
-      this.showCards();
-    } else if (e.key === "ArrowRight" && this.currentIndex < this.totalPages - 1) {
-      this.currentIndex++;
-      this.showCards();
-    }
+    if (e.key === "ArrowLeft")  this.prevPage();
+    if (e.key === "ArrowRight") this.nextPage();
   }
 };
 
 // ===================================
-// MODULE: IMAGE CAROUSELS (Par projet)
+// MODULE: IMAGE CAROUSELS (par projet)
 // ===================================
 const ImageCarousel = {
   AUTO_SLIDE_INTERVAL: 3000,
-  
+
   init() {
-    const projectCards = document.querySelectorAll('.project-card');
-    projectCards.forEach(card => this.setupImageCarousel(card));
+    document.querySelectorAll('.project-card').forEach(card => this.setup(card));
   },
 
-  setupImageCarousel(card) {
+  setup(card) {
     const container = card.querySelector('.project-image-container');
     if (!container) return;
-    
+
     const images = container.querySelectorAll('.carousel-image');
     if (images.length <= 1) return;
-    
-    const elements = {
-      container,
+
+    const el = {
       images,
       prevBtn: container.querySelector('.prev-image'),
       nextBtn: container.querySelector('.next-image'),
-      dots: container.querySelectorAll('.image-dot')
+      dots:    container.querySelectorAll('.image-dot')
     };
-    
-    const state = {
-      currentIndex: 0,
-      intervalId: null,
-      isHovering: false
-    };
-    
-    this.bindImageCarouselEvents(elements, state);
-    this.startAutoSlide(state);
-    this.setupVisibilityObserver(card, state);
-  },
 
-  bindImageCarouselEvents(elements, state) {
-    const { container, images, prevBtn, nextBtn, dots } = elements;
-    
-    // Fonction d'affichage
-    const showImage = (index) => {
-      // Gestion circulaire
+    const state = { currentIndex: 0, intervalId: null, isHovering: false };
+
+    const show = (index) => {
       if (index < 0) index = images.length - 1;
       if (index >= images.length) index = 0;
-      
-      // Mise à jour des images
       images.forEach(img => img.classList.remove('active'));
       images[index].classList.add('active');
-      
-      // Mise à jour des indicateurs
-      dots.forEach((dot, i) => {
-        dot.classList.toggle('active', i === index);
-      });
-      
+      el.dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
       state.currentIndex = index;
     };
 
-    // Navigation boutons
-    if (prevBtn) {
-      prevBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        showImage(state.currentIndex - 1);
-      });
-    }
-    
-    if (nextBtn) {
-      nextBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        showImage(state.currentIndex + 1);
-      });
-    }
-    
-    // Navigation indicateurs
-    dots.forEach((dot, index) => {
-      dot.addEventListener('click', (e) => {
-        e.stopPropagation();
-        showImage(index);
-      });
-    });
-    
-    // Gestion survol
-    container.addEventListener('mouseenter', () => {
-      state.isHovering = true;
-      this.stopAutoSlide(state);
-    });
-    
-    container.addEventListener('mouseleave', () => {
-      state.isHovering = false;
-      this.startAutoSlide(state);
-    });
-    
-    // Sauvegarde de showImage pour utilisation ultérieure
-    state.showImage = showImage;
-  },
+    el.prevBtn?.addEventListener('click', e => { e.stopPropagation(); show(state.currentIndex - 1); });
+    el.nextBtn?.addEventListener('click', e => { e.stopPropagation(); show(state.currentIndex + 1); });
+    el.dots.forEach((dot, i) => dot.addEventListener('click', e => { e.stopPropagation(); show(i); }));
 
-  startAutoSlide(state) {
-    if (state.intervalId) clearInterval(state.intervalId);
-    state.intervalId = setInterval(() => {
-      if (!state.isHovering && state.showImage) {
-        state.showImage(state.currentIndex + 1);
-      }
-    }, this.AUTO_SLIDE_INTERVAL);
-  },
+    container.addEventListener('mouseenter', () => { state.isHovering = true; clearInterval(state.intervalId); });
+    container.addEventListener('mouseleave', () => { state.isHovering = false; this.startAuto(state, show); });
 
-  stopAutoSlide(state) {
-    if (state.intervalId) {
-      clearInterval(state.intervalId);
-      state.intervalId = null;
-    }
-  },
+    state.show = show;
+    this.startAuto(state, show);
 
-  setupVisibilityObserver(card, state) {
-    const observer = new IntersectionObserver((entries) => {
+    new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (!entry.isIntersecting) {
-          this.stopAutoSlide(state);
-        } else {
-          this.startAutoSlide(state);
-        }
+        if (!entry.isIntersecting) clearInterval(state.intervalId);
+        else this.startAuto(state, show);
       });
-    }, { threshold: 0.1 });
-    
-    observer.observe(card);
+    }, { threshold: 0.1 }).observe(card);
+  },
+
+  startAuto(state, show) {
+    clearInterval(state.intervalId);
+    state.intervalId = setInterval(() => {
+      if (!state.isHovering) show(state.currentIndex + 1);
+    }, this.AUTO_SLIDE_INTERVAL);
   }
 };
 
@@ -404,150 +273,196 @@ const ImageCarousel = {
 const SkillsManager = {
   init() {
     this.animateProgressBars();
-    this.setupTechFilters();
-    this.animateTechCards();
+    this.setupFilters();
   },
 
-  // Animation des barres de progression
   animateProgressBars() {
     DOM.progressBars.forEach(bar => {
       const level = bar.getAttribute('data-level');
-      
-      const observer = new IntersectionObserver((entries) => {
+      new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             bar.style.width = `${level}%`;
-            bar.classList.add('animated');
-            observer.unobserve(entry.target);
+            entry.target.closest('.progress-bar') &&
+              entry.target.classList.add('animated');
           }
         });
-      }, { threshold: 0.5 });
-      
-      observer.observe(bar);
+      }, { threshold: 0.5 }).observe(bar);
     });
   },
 
-  // Filtrage des technologies
-  setupTechFilters() {
-    DOM.filterButtons.forEach(button => {
-      button.addEventListener('click', () => this.filterTechCards(button));
-    });
-  },
+  setupFilters() {
+    DOM.filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        DOM.filterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
 
-  filterTechCards(activeButton) {
-    // Mise à jour des boutons actifs
-    DOM.filterButtons.forEach(btn => btn.classList.remove('active'));
-    activeButton.classList.add('active');
-    
-    const filter = activeButton.getAttribute('data-filter');
-    
-    // Filtrage des cartes
-    DOM.techCards.forEach(card => {
-      const category = card.getAttribute('data-category');
-      
-      if (filter === 'all' || category === filter) {
-        card.style.display = 'flex';
-        card.style.animation = 'fadeInUp 0.4s ease forwards';
-      } else {
-        card.style.display = 'none';
-      }
-    });
-  },
+        const filter = btn.getAttribute('data-filter');
+        DOM.techCards.forEach(card => {
+          const match = filter === 'all' || card.getAttribute('data-category') === filter;
+          card.style.display = match ? 'flex' : 'none';
+        });
 
-  // Animation des cartes technologiques
-  animateTechCards() {
-    DOM.techCards.forEach((card, index) => {
-      card.style.animationDelay = `${index * 0.05}s`;
+        // Ré-anime les cartes visibles après le filtre
+        setTimeout(() => {
+          const visible = [...DOM.techCards].filter(c => c.style.display !== 'none');
+          ScrollReveal.animateTechCards(visible);
+        }, 40);
+      });
     });
   }
 };
 
 // ===================================
-// MODULE: GLOBAL KEYBOARD SHORTCUTS
+// MODULE: SCROLL REVEAL
+// Gère l'apparition au scroll de tous
+// les blocs avec un effet ralenti
 // ===================================
-const KeyboardShortcuts = {
-  init() {
-    document.addEventListener("keydown", (e) => this.handleGlobalShortcuts(e));
-  },
-
-  handleGlobalShortcuts(e) {
-    // Home ou Ctrl+Flèche haut pour retourner en haut
-    if (e.key === "Home" || (e.key === "ArrowUp" && e.ctrlKey)) {
-      e.preventDefault();
-      BackToTop.scrollToTop();
-    }
-  }
-};
-
-
-
-// ===================================
-// MODULE: SCROLL REVEAL ANIMATIONS
-// ===================================
-// Ajoute ce module dans ton script.js et appelle ScrollReveal.init()
-// dans le bloc DOMContentLoaded
-
 const ScrollReveal = {
+  isMobile: window.matchMedia('(max-width: 639px)').matches,
+
   init() {
-    this.addRevealClasses();
-    this.observeElements();
+    setTimeout(() => {
+      this.observeStandardElements();
+      this.observeTechCards();
+    }, 120);
   },
 
-  // Ajoute la classe .reveal sur tous les blocs cibles
-  addRevealClasses() {
-    const targets = [
+  // Observer générique — threshold très bas pour déclencher tôt
+  // (important car les transitions durent 1.4s–1.6s)
+  createObserver(callback, overrides = {}) {
+    return new IntersectionObserver(callback, {
+      threshold: 0.03,
+      rootMargin: this.isMobile ? '0px 0px -10px 0px' : '0px 0px -30px 0px',
+      ...overrides
+    });
+  },
+
+  // ---- Éléments standards + titres h1 ----
+  observeStandardElements() {
+    const selectors = [
+      '#projects .container > h1',
+      '#skills .container > h1',
+      '.contact-header h1',
       '.hero-text',
       '.hero-image',
       '.about-content',
       '.about-infos',
-      '.project-card',
       '.skill-category',
       '.skills-tech',
       '.contact-header',
       '.contact-form-wrapper'
     ];
 
-    targets.forEach(selector => {
-      document.querySelectorAll(selector).forEach(el => {
-        el.classList.add('reveal');
-      });
-    });
-  },
-
-  observeElements() {
-    const isMobile = window.matchMedia('(max-width: 639px)').matches;
-
-    const options = {
-      // Sur mobile : on déclenche plus tôt (moins de marge)
-      // Sur desktop : on attend que ~15% du bloc soit visible
-      threshold: isMobile ? 0.08 : 0.15,
-      rootMargin: isMobile ? '0px 0px -30px 0px' : '0px 0px -60px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
+    const observer = this.createObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          // On arrête d'observer après l'animation (animation one-shot)
+          entry.target.classList.add('is-visible');
           observer.unobserve(entry.target);
         }
       });
-    }, options);
+    });
 
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    selectors.forEach(sel => {
+      document.querySelectorAll(sel).forEach(el => observer.observe(el));
+    });
+  },
+
+  // ---- Project cards ----
+  // Gérées via JS inline car le carousel fait display:none → display:flex
+  // ce qui reset toute transition CSS. Solution : on force l'état initial
+  // en style inline, on attend un frame (reflow), puis on anime.
+  animateProjectCards() {
+    const activeCards = document.querySelectorAll('.project-card.active');
+
+    activeCards.forEach((card, i) => {
+      const delay = this.isMobile ? i * 120 : i * 160;
+
+      // Étape 1 : état initial forcé en inline (écrase tout)
+      card.style.transition = 'none';
+      card.style.opacity    = '0';
+      card.style.transform  = 'translateY(25px)';
+
+      // Étape 2 : après un frame navigateur, active la transition
+      setTimeout(() => {
+        // getBoundingClientRect() force le reflow — sans ça le navigateur
+        // "saute" directement à l'état final sans interpoler
+        card.getBoundingClientRect();
+        card.style.transition = `opacity 1.4s cubic-bezier(0.6, 0, 0.1, 1) ${delay}ms, transform 1.4s cubic-bezier(0.6, 0, 0.1, 1) ${delay}ms`;
+        card.style.opacity    = '1';
+        card.style.transform  = 'translateY(0)';
+      }, 20);
+    });
+  },
+
+  // ---- Tech cards (grille compétences) ----
+  observeTechCards() {
+    const techGrid = document.querySelector('.tech-grid');
+    if (!techGrid) return;
+
+    const observer = this.createObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const cards = [...techGrid.querySelectorAll('.tech-card')];
+          this.animateTechCards(cards);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.03 });
+
+    observer.observe(techGrid);
+  },
+
+  // Anime une liste de tech-cards en cascade
+  animateTechCards(cards) {
+    cards.forEach((card, i) => {
+      const delay = this.isMobile ? i * 60 : i * 80;
+
+      card.style.transition = 'none';
+      card.style.opacity    = '0';
+      card.style.transform  = 'translateY(10px)';
+
+      setTimeout(() => {
+        card.getBoundingClientRect();
+        card.style.transition = `opacity ${this.isMobile ? '0.9s' : '1.1s'} cubic-bezier(0.6, 0, 0.1, 1) ${delay}ms, transform ${this.isMobile ? '0.9s' : '1.1s'} cubic-bezier(0.6, 0, 0.1, 1) ${delay}ms, border-color 0.3s ease, box-shadow 0.3s ease`;
+        card.style.opacity    = '1';
+        card.style.transform  = 'translateY(0)';
+      }, 20);
+    });
   }
 };
 
 // ===================================
-// DANS TON DOMContentLoaded, AJOUTE :
-// ScrollReveal.init();
+// MODULE: KEYBOARD SHORTCUTS
 // ===================================
+const KeyboardShortcuts = {
+  init() {
+    document.addEventListener("keydown", e => {
+      if (e.key === "Home" || (e.key === "ArrowUp" && e.ctrlKey)) {
+        e.preventDefault();
+        BackToTop.scrollToTop();
+      }
+    });
+  }
+};
 
 // ===================================
-// INITIALISATION GLOBALE
+// UTILITAIRES
+// ===================================
+const Utils = {
+  debounce(func, wait) {
+    let timeout;
+    return function(...args) {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(this, args), wait);
+    };
+  }
+};
+
+// ===================================
+// INITIALISATION
 // ===================================
 document.addEventListener('DOMContentLoaded', () => {
-  // Initialisation de tous les modules
   HamburgerMenu.init();
   ThemeManager.init();
   BackToTop.init();
@@ -555,45 +470,7 @@ document.addEventListener('DOMContentLoaded', () => {
   ImageCarousel.init();
   SkillsManager.init();
   KeyboardShortcuts.init();
+  ScrollReveal.init();
 
-  ScrollReveal.init();  //Ligne ajouter pour animation de la page
-  
-  console.log('Portfolio JavaScript initialisé avec succès 🚀');
+  console.log('Portfolio initialisé 🚀');
 });
-
-
-
-
-
-// ===================================
-// UTILITAIRES (si nécessaire)
-// ===================================
-const Utils = {
-  // Fonctions utilitaires génériques à ajouter si besoin
-  debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-      const later = () => {
-        clearTimeout(timeout);
-        func(...args);
-      };
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
-    };
-  },
-
-  throttle(func, limit) {
-    let inThrottle;
-    return function(...args) {
-      if (!inThrottle) {
-        func.apply(this, args);
-        inThrottle = true;
-        setTimeout(() => inThrottle = false, limit);
-      }
-    };
-  }
-};
-
-
-
-
