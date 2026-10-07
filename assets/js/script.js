@@ -1,5 +1,5 @@
 /**
- * Portfolio JavaScript — Version complète avec Scroll Reveal
+ * Portfolio JavaScript — Version complète avec Scroll Reveal et Overlay mobile
  */
 
 // ===================================
@@ -8,12 +8,11 @@
 const DOM = {
   hamburger: document.querySelector(".hamburger"),
   navMenu: document.querySelector(".list-darkmode-menu ul"),
+  overlay: document.getElementById("overlay"),
   themeToggle: document.getElementById("themeToggle"),
   backToTop: document.getElementById("backToTop"),
   body: document.body,
   projectCards: document.querySelectorAll(".project-card"),
-  carouselPrevBtn: document.querySelector(".prev-btn"),
-  carouselNextBtn: document.querySelector(".next-btn"),
   carouselIndicators: document.querySelector(".carousel-indicators"),
   filterButtons: document.querySelectorAll('.filter-btn'),
   techCards: document.querySelectorAll('.tech-card'),
@@ -21,19 +20,34 @@ const DOM = {
 };
 
 // ===================================
-// MODULE: HAMBURGER MENU
+// MODULE: HAMBURGER MENU AVEC OVERLAY
 // ===================================
 const HamburgerMenu = {
   init() {
     if (!DOM.hamburger || !DOM.navMenu) return;
+    
+    this.overlay = DOM.overlay;
     this.bindEvents();
   },
 
   bindEvents() {
     DOM.hamburger.addEventListener("click", () => this.toggleMenu());
 
+    // Fermer le menu quand on clique sur un lien
     document.querySelectorAll(".list-darkmode-menu ul li a").forEach(link => {
       link.addEventListener("click", () => this.closeMenu());
+    });
+
+    // Fermer le menu quand on clique sur l'overlay
+    if (this.overlay) {
+      this.overlay.addEventListener("click", () => this.closeMenu());
+    }
+
+    // Fermer le menu avec la touche Echap
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && DOM.navMenu?.classList.contains("active")) {
+        this.closeMenu();
+      }
     });
 
     document.addEventListener("click", e => this.handleClickOutside(e));
@@ -42,17 +56,37 @@ const HamburgerMenu = {
   toggleMenu() {
     DOM.hamburger.classList.toggle("active");
     DOM.navMenu.classList.toggle("active");
+    
+    // Gérer l'overlay
+    if (this.overlay) {
+      if (DOM.navMenu.classList.contains("active")) {
+        this.overlay.classList.add("active");
+        // Empêcher le défilement du body quand le menu est ouvert
+        DOM.body.style.overflow = "hidden";
+      } else {
+        this.overlay.classList.remove("active");
+        DOM.body.style.overflow = "";
+      }
+    }
   },
 
   closeMenu() {
     DOM.hamburger.classList.remove("active");
     DOM.navMenu.classList.remove("active");
+    
+    // Fermer l'overlay
+    if (this.overlay) {
+      this.overlay.classList.remove("active");
+      DOM.body.style.overflow = "";
+    }
   },
 
   handleClickOutside(e) {
     const insideMenu = DOM.navMenu?.contains(e.target);
     const onHamburger = DOM.hamburger?.contains(e.target);
-    if (!insideMenu && !onHamburger && DOM.navMenu?.classList.contains("active")) {
+    const onOverlay = this.overlay?.contains(e.target);
+    
+    if (!insideMenu && !onHamburger && !onOverlay && DOM.navMenu?.classList.contains("active")) {
       this.closeMenu();
     }
   }
@@ -131,8 +165,8 @@ const ProjectCarousel = {
   cardsPerView: 3,
 
   init() {
-    const { projectCards, carouselPrevBtn, carouselNextBtn, carouselIndicators } = DOM;
-    if (!projectCards.length || !carouselPrevBtn || !carouselNextBtn || !carouselIndicators) return;
+    const { projectCards, carouselIndicators } = DOM;
+    if (!projectCards.length || !carouselIndicators) return;
 
     this.totalCards = projectCards.length;
     this.totalPages = Math.ceil(this.totalCards / this.cardsPerView);
@@ -153,8 +187,6 @@ const ProjectCarousel = {
   },
 
   bindEvents() {
-    DOM.carouselPrevBtn.addEventListener("click", () => this.prevPage());
-    DOM.carouselNextBtn.addEventListener("click", () => this.nextPage());
     document.addEventListener("keydown", e => this.handleKeyNavigation(e));
   },
 
@@ -178,8 +210,6 @@ const ProjectCarousel = {
     });
 
     this.updateIndicators();
-    this.updateButtons();
-
     // Lance l'animation après que display:flex est appliqué
     // Le setTimeout laisse le navigateur calculer le layout
     setTimeout(() => ScrollReveal.animateProjectCards(), 30);
@@ -189,11 +219,6 @@ const ProjectCarousel = {
     document.querySelectorAll(".carousel-dot").forEach((dot, i) => {
       dot.classList.toggle("active", i === this.currentIndex);
     });
-  },
-
-  updateButtons() {
-    DOM.carouselPrevBtn.disabled = this.currentIndex === 0;
-    DOM.carouselNextBtn.disabled = this.currentIndex === this.totalPages - 1;
   },
 
   goToPage(i) { this.currentIndex = i; this.showCards(); },
@@ -472,5 +497,5 @@ document.addEventListener('DOMContentLoaded', () => {
   KeyboardShortcuts.init();
   ScrollReveal.init();
 
-  console.log('Portfolio initialisé 🚀');
+  console.log('Portfolio initialisé avec overlay mobile 🚀');
 });
