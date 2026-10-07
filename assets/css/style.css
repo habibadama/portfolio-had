@@ -493,36 +493,6 @@ nav {
   transition: background-color var(--bg-transition);
 }
 
-#about::before,
-#projects::before,
-#skills::before,
-#contact::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 6px;
-  background: linear-gradient(
-    90deg,
-    var(--primary) 0%,
-    var(--secondary) 50%,
-    var(--primary-light) 100%
-  );
-  animation: gradientMove 8s ease infinite;
-  background-size: 200% 100%;
-}
-
-@keyframes gradientMove {
-  0%,
-  100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
 /* ===================================
    SECTION ABOUT
    =================================== */
