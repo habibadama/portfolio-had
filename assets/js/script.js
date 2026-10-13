@@ -458,6 +458,148 @@ const ScrollReveal = {
 };
 
 // ===================================
+// MODULE: ONGLETS COMPÉTENCES / PARCOURS
+// ===================================
+const SkillsTabs = {
+  titles: { skills: "Mes Compétences", journey: "Mon Parcours" },
+
+  init() {
+    this.tabs = [...document.querySelectorAll(".skills-tab")];
+    this.panels = document.querySelectorAll(".skills-panel");
+    this.title = document.getElementById("skillsTitle");
+    if (!this.tabs.length) return;
+
+    this.tabs.forEach((tab, i) => {
+      tab.addEventListener("click", () => this.activate(tab.dataset.tab));
+      // Navigation clavier (← →) — stopPropagation évite de changer aussi le carrousel de projets
+      tab.addEventListener("keydown", e => {
+        if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+        e.preventDefault();
+        e.stopPropagation();
+        const step = e.key === "ArrowRight" ? 1 : -1;
+        const next = this.tabs[(i + step + this.tabs.length) % this.tabs.length];
+        next.focus();
+        this.activate(next.dataset.tab);
+      });
+    });
+  },
+
+  activate(name) {
+    this.tabs.forEach(t => {
+      const on = t.dataset.tab === name;
+      t.classList.toggle("active", on);
+      t.setAttribute("aria-selected", on);
+      t.tabIndex = on ? 0 : -1;
+    });
+    this.panels.forEach(p => { p.hidden = p.dataset.panel !== name; });
+    if (this.title) this.title.textContent = this.titles[name];
+    if (name === "journey") JourneyReveal.play();
+
+    // Si les boutons sont sortis de l'écran (ex. retour depuis un long parcours), on remonte
+    const top = document.querySelector(".skills-tabs").getBoundingClientRect().top;
+    if (top < 100) window.scrollBy({ top: top - 110, behavior: "smooth" });
+  }
+};
+
+// ===================================
+// MODULE: APPARITION DU PARCOURS
+// ===================================
+const JourneyReveal = {
+  init() {
+    this.items = document.querySelectorAll(".timeline-item, .cert-card");
+    this.observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          this.observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+  },
+
+  // Rejoue l'animation à chaque ouverture de l'onglet
+  play() {
+    this.items.forEach(el => { el.classList.remove("is-visible"); this.observer.unobserve(el); });
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      this.items.forEach(el => this.observer.observe(el));
+    }));
+  }
+};
+
+// ===================================
+// MODULE: FENÊTRE DES CERTIFICATIONS
+// ===================================
+const CertModal = {
+  init() {
+    this.modal = document.getElementById("certModal");
+    if (!this.modal) return;
+    const $ = id => document.getElementById(id);
+    this.el = {
+      img: $("certModalImg"), placeholder: $("certModalPlaceholder"), title: $("certModalTitle"),
+      issuer: $("certModalIssuer"), date: $("certModalDate"), credRow: $("certModalCredRow"),
+      cred: $("certModalCred"), desc: $("certModalDesc"), link: $("certModalLink")
+    };
+
+    document.querySelectorAll(".cert-card").forEach(card => {
+      card.addEventListener("click", () => this.open(card));
+    });
+    this.modal.addEventListener("click", e => { if (e.target.closest("[data-close]")) this.close(); });
+    document.addEventListener("keydown", e => {
+      if (this.modal.hidden) return;
+      if (e.key === "Escape") this.close();
+      if (e.key === "Tab") this.trapFocus(e);
+    });
+  },
+
+  open(card) {
+    const d = card.dataset, el = this.el;
+    clearTimeout(this.timer);
+    el.title.textContent = d.title || "";
+    el.issuer.textContent = d.issuer || "";
+    el.date.textContent = d.date || "";
+    el.desc.textContent = d.desc || "";
+    el.cred.textContent = d.credential || "";
+    el.credRow.hidden = !d.credential;
+
+    const showPlaceholder = () => { el.img.hidden = true; el.placeholder.hidden = false; };
+    if (d.image) {
+      el.img.onerror = showPlaceholder;
+      el.img.alt = `Certificat : ${d.title}`;
+      el.img.src = d.image;
+      el.img.hidden = false;
+      el.placeholder.hidden = true;
+    } else {
+      showPlaceholder();
+    }
+
+    el.link.hidden = !d.link;
+    if (d.link) el.link.href = d.link;
+
+    this.lastFocus = card;
+    this.modal.hidden = false;
+    document.body.classList.add("modal-open");
+    requestAnimationFrame(() => this.modal.classList.add("open"));
+    this.modal.querySelector(".cert-modal-close").focus();
+  },
+
+  close() {
+    this.modal.classList.remove("open");
+    document.body.classList.remove("modal-open");
+    this.timer = setTimeout(() => { this.modal.hidden = true; }, 250);
+    if (this.lastFocus) this.lastFocus.focus();
+  },
+
+  // Garde le focus clavier à l'intérieur de la fenêtre
+  trapFocus(e) {
+    const f = [...this.modal.querySelectorAll("a[href], button")].filter(x => x.offsetParent !== null);
+    if (!f.length) return;
+    const first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+};
+
+// ===================================
 // MODULE: KEYBOARD SHORTCUTS
 // ===================================
 const KeyboardShortcuts = {
@@ -496,6 +638,9 @@ document.addEventListener('DOMContentLoaded', () => {
   SkillsManager.init();
   KeyboardShortcuts.init();
   ScrollReveal.init();
+  SkillsTabs.init();
+  JourneyReveal.init();
+  CertModal.init();
 
   console.log('Portfolio initialisé avec overlay mobile 🚀');
 });

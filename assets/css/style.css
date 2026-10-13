@@ -2138,3 +2138,178 @@ footer {
     padding: 8px 0;
   }
 }
+
+/* ===================================
+   COMPÉTENCES / PARCOURS : ONGLETS
+   =================================== */
+.skills-tabs { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin: -20px 0 45px; }
+.skills-tab {
+  display: inline-flex; align-items: center; gap: 10px; padding: 12px 26px;
+  border: 1px solid var(--border); border-radius: 30px; background: var(--filter-bg);
+  color: var(--filter-text); font: 600 var(--fs-base) "Space Grotesk", sans-serif;
+  cursor: pointer; transition: var(--transition);
+}
+.skills-tab:hover { background: var(--filter-hover-bg); color: var(--filter-hover-text); border-color: var(--filter-hover-bg); transform: translateY(-2px); }
+.skills-tab.active {
+  background: linear-gradient(90deg, var(--primary), var(--primary-light)); color: #fff;
+  border-color: transparent; box-shadow: 0 6px 16px rgba(79, 70, 229, 0.35);
+}
+.skills-tab:focus-visible, .cert-card:focus-visible, .cert-modal-close:focus-visible { outline: 3px solid var(--secondary); outline-offset: 3px; }
+.skills-panel:not([hidden]) { animation: panelIn 0.5s ease backwards; }
+@keyframes panelIn { from { opacity: 0; transform: translateY(14px); } }
+
+/* ===================================
+   PARCOURS : SCHÉMA (TIMELINE)
+   =================================== */
+.journey-subtitle {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  font-size: var(--fs-2xl); color: var(--text-color); margin-bottom: 35px;
+}
+.journey-subtitle i { color: var(--primary); }
+.journey-hint { text-align: center; color: var(--text-secondary); margin: -22px 0 28px; }
+
+.timeline { position: relative; list-style: none; max-width: 940px; margin: 0 auto 80px; }
+.timeline::before {
+  content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 3px;
+  transform: translateX(-50%); border-radius: 2px;
+  background: linear-gradient(to bottom, var(--primary), var(--secondary));
+}
+.timeline-item { position: relative; width: 50%; padding: 0 56px 40px 0; }
+.timeline-item:nth-child(even) { margin-left: 50%; padding: 0 0 40px 56px; }
+.timeline-item:last-child { padding-bottom: 0; }
+
+.timeline-node {
+  position: absolute; top: 0; right: -24px; width: 48px; height: 48px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; z-index: 1;
+  background: var(--bg-color); border: 3px solid var(--primary); color: var(--primary);
+  font-size: 1.1rem; box-shadow: 0 0 0 6px var(--bg-color);
+}
+.timeline-item:nth-child(even) .timeline-node { right: auto; left: -24px; }
+.timeline-item.current .timeline-node { background: var(--primary); color: #fff; animation: nodePulse 2s infinite; }
+@keyframes nodePulse { 0% { box-shadow: 0 0 0 6px var(--bg-color), 0 0 0 6px rgba(99, 102, 241, 0.5); } 100% { box-shadow: 0 0 0 6px var(--bg-color), 0 0 0 20px rgba(99, 102, 241, 0); } }
+
+.timeline-card {
+  position: relative; padding: 22px 24px; background: var(--card-bg);
+  border: 1px solid var(--border); border-radius: 15px; box-shadow: var(--card-shadow);
+  transition: var(--transition);
+}
+.timeline-card:hover { transform: translateY(-5px); box-shadow: var(--card-hover-shadow); border-color: var(--primary-light); }
+.timeline-card::before {
+  content: ""; position: absolute; top: 17px; right: -8px; width: 14px; height: 14px;
+  background: var(--card-bg); border-top: 1px solid var(--border); border-right: 1px solid var(--border);
+  transform: rotate(45deg);
+}
+.timeline-item:nth-child(even) .timeline-card::before {
+  right: auto; left: -8px; border: 0; border-left: 1px solid var(--border); border-bottom: 1px solid var(--border);
+}
+.timeline-date { display: inline-block; margin-bottom: 8px; font-size: var(--fs-sm); font-weight: 700; color: var(--primary); }
+.timeline-badge {
+  margin-left: 8px; padding: 2px 10px; border-radius: 20px; font-style: normal; font-size: var(--fs-xs);
+  background: var(--primary); color: #fff;
+}
+.timeline-card h4 { font-size: var(--fs-lg); color: var(--text-color); margin-bottom: 6px; }
+.timeline-school { font-size: var(--fs-sm); font-weight: 600; color: var(--text-secondary); margin-bottom: 8px; }
+.timeline-school i { color: var(--secondary); margin-right: 6px; }
+.timeline-desc { font-size: var(--fs-sm); color: var(--text-secondary); }
+
+/* ===================================
+   CERTIFICATIONS
+   =================================== */
+.cert-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 22px; }
+.cert-card {
+  display: flex; flex-direction: column; align-items: center; text-align: center; gap: 6px;
+  padding: 28px 22px 22px; background: var(--card-bg); border: 1px solid var(--border);
+  border-radius: 15px; box-shadow: var(--card-shadow); cursor: pointer; color: var(--text-color);
+  font-family: inherit; transition: var(--transition);
+}
+.cert-card:hover { transform: translateY(-6px); box-shadow: var(--card-hover-shadow); border-color: var(--primary); }
+.cert-icon {
+  width: 64px; height: 64px; margin-bottom: 10px; border-radius: 50%; display: flex;
+  align-items: center; justify-content: center; font-size: 1.7rem; color: #fff;
+  background: linear-gradient(135deg, var(--primary), var(--secondary)); transition: transform 0.3s ease;
+}
+.cert-card:hover .cert-icon { transform: rotate(-8deg) scale(1.08); }
+.cert-title { font-size: var(--fs-lg); font-weight: 700; }
+.cert-issuer { font-size: var(--fs-sm); color: var(--text-secondary); }
+.cert-view { margin-top: 12px; font-size: var(--fs-sm); font-weight: 600; color: var(--primary); opacity: 0.85; }
+.cert-card:hover .cert-view { opacity: 1; }
+
+/* Apparition des éléments du parcours */
+.timeline-item, .cert-card { opacity: 0; transform: translateY(24px); transition: opacity 1s cubic-bezier(0.6, 0, 0.1, 1), transform 1s cubic-bezier(0.6, 0, 0.1, 1), border-color 0.3s, box-shadow 0.3s; }
+.timeline-item.is-visible, .cert-card.is-visible { opacity: 1; transform: translateY(0); }
+.cert-card:nth-child(3n + 2) { transition-delay: 0.1s, 0.1s, 0s, 0s; }
+.cert-card:nth-child(3n) { transition-delay: 0.2s, 0.2s, 0s, 0s; }
+.cert-card.is-visible:hover { transform: translateY(-6px); transition-delay: 0s; }
+
+/* ===================================
+   FENÊTRE DE CERTIFICATION
+   =================================== */
+body.modal-open { overflow: hidden; }
+.cert-modal { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 20px; opacity: 0; transition: opacity 0.25s ease; }
+.cert-modal.open { opacity: 1; }
+.cert-modal[hidden], .cert-modal [hidden] { display: none !important; }
+.cert-modal-backdrop { position: absolute; inset: 0; background: var(--overlay-bg); backdrop-filter: blur(3px); }
+.cert-modal-dialog {
+  position: relative; width: 100%; max-width: 720px; max-height: 90vh; overflow-y: auto;
+  background: var(--card-bg); color: var(--text-color); border: 1px solid var(--border);
+  border-radius: 18px; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+  transform: translateY(20px) scale(0.97); transition: transform 0.3s ease;
+}
+.cert-modal.open .cert-modal-dialog { transform: none; }
+.cert-modal-close {
+  position: absolute; top: 12px; right: 12px; z-index: 2; width: 40px; height: 40px; border: 0;
+  border-radius: 50%; background: var(--bg-color); color: var(--text-color); font-size: 1.1rem;
+  cursor: pointer; box-shadow: var(--card-shadow); transition: var(--transition);
+}
+.cert-modal-close:hover { background: var(--primary); color: #fff; transform: rotate(90deg); }
+.cert-modal-media { background: var(--border-light); display: flex; align-items: center; justify-content: center; min-height: 160px; }
+.cert-modal-media img { display: block; width: 100%; max-height: 55vh; object-fit: contain; }
+.cert-modal-placeholder { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 50px 20px; color: var(--text-secondary); text-align: center; }
+.cert-modal-placeholder i { font-size: 3rem; color: var(--primary); }
+.cert-modal-body { padding: 26px 30px 30px; }
+.cert-modal-body h3 { font-size: var(--fs-2xl); margin-bottom: 4px; }
+.cert-modal-issuer { color: var(--primary); font-weight: 600; margin-bottom: 14px; }
+.cert-modal-meta { font-size: var(--fs-sm); color: var(--text-secondary); margin-bottom: 4px; }
+.cert-modal-meta i { color: var(--secondary); width: 18px; }
+.cert-modal-desc { margin: 14px 0 20px; color: var(--text-secondary); }
+.cert-modal-link {
+  display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 8px;
+  background: var(--btn-primary-bg); color: var(--btn-primary-text); font-weight: 600; text-decoration: none; transition: var(--transition);
+}
+.cert-modal-link:hover { background: var(--btn-primary-hover); transform: translateY(-2px); }
+
+/* Responsive : parcours et certifications */
+@media screen and (max-width: 767px) {
+  .skills-tabs { margin-top: -25px; }
+  .skills-tab { padding: 10px 18px; font-size: var(--fs-sm); }
+  .timeline::before { left: 22px; }
+  .timeline-item, .timeline-item:nth-child(even) { width: 100%; margin-left: 0; padding: 0 0 30px 66px; }
+  .timeline-node, .timeline-item:nth-child(even) .timeline-node { left: 0; right: auto; width: 44px; height: 44px; }
+  .timeline-card::before, .timeline-item:nth-child(even) .timeline-card::before {
+    right: auto; left: -8px; border: 0; border-left: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  }
+  .cert-grid { grid-template-columns: 1fr; }
+  .cert-modal-body { padding: 22px 20px 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .timeline-item, .cert-card { transition: none; opacity: 1; transform: none; }
+  .skills-panel:not([hidden]), .timeline-item.current .timeline-node { animation: none; }
+}
+
+/* Bouton + pour afficher la description */
+.timeline-more { margin-top: 10px; }
+.timeline-more summary {
+  display: inline-flex; align-items: center; gap: 8px; cursor: pointer; list-style: none;
+  font-size: var(--fs-sm); font-weight: 600; color: var(--primary);
+}
+.timeline-more summary::-webkit-details-marker { display: none; }
+.timeline-more summary::before {
+  content: "+"; width: 26px; height: 26px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--primary); color: #fff; font-size: 1.1rem; line-height: 1;
+  transition: var(--transition);
+}
+.timeline-more summary:hover::before { background: var(--primary-dark); transform: scale(1.1); }
+.timeline-more summary:focus-visible { outline: 3px solid var(--secondary); outline-offset: 3px; border-radius: 6px; }
+.timeline-more[open] summary::before { content: "−"; }
+.timeline-more .timeline-desc { margin-top: 10px; animation: panelIn 0.4s ease backwards; }
