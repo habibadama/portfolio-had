@@ -366,6 +366,7 @@ const ScrollReveal = {
   // ---- Éléments standards + titres h1 ----
   observeStandardElements() {
     const selectors = [
+      '#about .container > h1',
       '#projects .container > h1',
       '#skills .container > h1',
       '.contact-header h1',
