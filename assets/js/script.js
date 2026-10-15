@@ -645,3 +645,152 @@ document.addEventListener('DOMContentLoaded', () => {
 
   console.log('Portfolio initialisé avec overlay mobile 🚀');
 });
+
+
+
+
+// ===================================
+// ARRIÈRE-PLAN : RÉSEAU DE POINTS ANIMÉ
+// Dessine dans <canvas id="networkBg"> ; couleurs lues dans le CSS (--net-*)
+// ===================================
+(() => {
+  const NetworkBackground = {
+    LINK_DIST: 120,
+    MOUSE_DIST: 160,
+    points: [],
+    mouse: { x: -999, y: -999 },
+    w: 0,
+    h: 0,
+    raf: 0,
+
+    init() {
+      this.canvas = document.getElementById("networkBg");
+      if (!this.canvas) return;
+      this.ctx = this.canvas.getContext("2d");
+      this.reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      this.readColors();
+      this.resize();
+
+      // Couleurs mises à jour quand on change de thème
+      new MutationObserver(() => {
+        this.readColors();
+        if (this.reduceMotion) this.draw();
+      }).observe(document.body, { attributes: true, attributeFilter: ["class"] });
+
+      // Taille recalculée quand la fenêtre change
+      let timer;
+      window.addEventListener("resize", () => {
+        clearTimeout(timer);
+        timer = setTimeout(() => this.resize(), 150);
+      });
+
+      // Souris et doigt : les points se relient au curseur
+      window.addEventListener("pointermove", e => {
+        this.mouse.x = e.clientX;
+        this.mouse.y = e.clientY;
+      }, { passive: true });
+      window.addEventListener("pointerup", e => {
+        if (e.pointerType !== "mouse") this.mouse.x = this.mouse.y = -999;
+      });
+      document.addEventListener("mouseleave", () => {
+        this.mouse.x = this.mouse.y = -999;
+      });
+
+      this.draw();
+    },
+
+    readColors() {
+      const s = getComputedStyle(document.body);
+      const get = name => s.getPropertyValue(name).trim();
+      this.colors = {
+        dot: get("--net-dot"),
+        line: get("--net-line"),
+        accent: get("--net-accent"),
+        alpha: parseFloat(get("--net-line-alpha")) || 0.4
+      };
+    },
+
+    resize() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      this.w = window.innerWidth;
+      this.h = window.innerHeight;
+      this.canvas.width = this.w * dpr;
+      this.canvas.height = this.h * dpr;
+      this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      // Nombre de points selon la taille de l'écran (entre 28 et 140)
+      const target = Math.min(140, Math.max(28, Math.round((this.w * this.h) / 14000)));
+      while (this.points.length < target) this.points.push(this.createPoint());
+      this.points.length = Math.min(this.points.length, target);
+      if (this.reduceMotion) this.draw();
+    },
+
+    createPoint() {
+      return {
+        x: Math.random() * this.w,
+        y: Math.random() * this.h,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35,
+        accent: Math.random() < 0.16
+      };
+    },
+
+    drawLine(x1, y1, x2, y2, rgb, alpha) {
+      const c = this.ctx;
+      c.strokeStyle = `rgba(${rgb}, ${alpha})`;
+      c.beginPath();
+      c.moveTo(x1, y1);
+      c.lineTo(x2, y2);
+      c.stroke();
+    },
+
+    draw() {
+      const { ctx, points, colors, mouse } = this;
+      ctx.clearRect(0, 0, this.w, this.h);
+      ctx.lineWidth = 1;
+
+      for (const p of points) {
+        if (!this.reduceMotion) {
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < 0 || p.x > this.w) p.vx *= -1;
+          if (p.y < 0 || p.y > this.h) p.vy *= -1;
+        }
+      }
+
+      const link2 = this.LINK_DIST ** 2;
+      const mouse2 = this.MOUSE_DIST ** 2;
+      for (let i = 0; i < points.length; i++) {
+        const a = points[i];
+        for (let j = i + 1; j < points.length; j++) {
+          const b = points[j];
+          const d2 = (a.x - b.x) ** 2 + (a.y - b.y) ** 2;
+          if (d2 < link2) {
+            this.drawLine(a.x, a.y, b.x, b.y, colors.line,
+              (1 - Math.sqrt(d2) / this.LINK_DIST) * colors.alpha);
+          }
+        }
+        const m2 = (a.x - mouse.x) ** 2 + (a.y - mouse.y) ** 2;
+        if (m2 < mouse2) {
+          this.drawLine(a.x, a.y, mouse.x, mouse.y, colors.accent,
+            (1 - Math.sqrt(m2) / this.MOUSE_DIST) * 0.8);
+        }
+        ctx.fillStyle = `rgb(${a.accent ? colors.accent : colors.dot})`;
+        ctx.beginPath();
+        ctx.arc(a.x, a.y, a.accent ? 2.4 : 1.7, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      if (!this.reduceMotion) {
+        cancelAnimationFrame(this.raf);
+        this.raf = requestAnimationFrame(() => this.draw());
+      }
+    }
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => NetworkBackground.init());
+  } else {
+    NetworkBackground.init();
+  }
+})();
