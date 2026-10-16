@@ -2190,11 +2190,15 @@ nav {
 }
 
 .timeline-more summary {
-  display: flex;
-  width: 26px;
-  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   cursor: pointer;
   list-style: none;
+  user-select: none;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--primary);
 }
 
 .timeline-more summary::-webkit-details-marker {
@@ -2203,6 +2207,7 @@ nav {
 
 .timeline-more summary::before {
   content: "+";
+  flex: none;
   width: 26px;
   height: 26px;
   border-radius: 50%;
@@ -2213,7 +2218,13 @@ nav {
   color: #fff;
   font-size: 1.1rem;
   line-height: 1;
-  transition: var(--transition);
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease;
+}
+
+.timeline-more[open] summary::before {
+  content: "−";
 }
 
 .timeline-more summary:hover::before {
@@ -2222,11 +2233,7 @@ nav {
 }
 
 .timeline-more summary:focus-visible {
-  border-radius: 50%;
-}
-
-.timeline-more[open] summary::before {
-  content: "−";
+  border-radius: 20px;
 }
 
 .timeline-more .timeline-desc {
