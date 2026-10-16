@@ -1,31 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap");
 
-/* ===================================
-   SOMMAIRE
-   01. VARIABLES GLOBALES & THÈMES (clair / sombre)
-   02. RESET & BASE
-   03. ARRIÈRE-PLAN : RÉSEAU DE POINTS
-   04. TITRES DE SECTION (communs)
-   05. SECTIONS (styles communs)
-   06. CARTES & ICÔNES (styles communs)
-   07. ÉLÉMENTS INTERACTIFS (focus clavier)
-   08. HEADER & NAVIGATION
-   09. SWITCH MODE SOMBRE
-   10. MENU HAMBURGER
-   11. OVERLAY MOBILE
-   12. SECTION HERO (accueil + photo)
-   13. SECTION À PROPOS
-   14. SECTION PROJETS
-   15. SECTION COMPÉTENCES
-   16. ONGLETS COMPÉTENCES / PARCOURS
-   17. PARCOURS ÉDUCATIF (TIMELINE)
-   18. CERTIFICATIONS
-   19. FENÊTRE DE CERTIFICATION
-   20. SECTION CONTACT
-   21. FOOTER
-   22. BOUTON RETOUR EN HAUT
-   23. ANIMATIONS D'APPARITION (états communs)
-   =================================== */
 
 /* ===================================
    VARIABLES GLOBALES & THÈMES (clair / sombre)
@@ -384,7 +358,8 @@ body::before {
 .skills-tab:focus-visible,
 .cert-card:focus-visible,
 .cert-modal-close:focus-visible,
-.timeline-more summary:focus-visible {
+.timeline-more summary:focus-visible,
+.theme-switch input:focus-visible + .slider {
   outline: 3px solid var(--secondary);
   outline-offset: 3px;
 }
@@ -556,77 +531,117 @@ nav {
 
 .theme-switch {
   position: relative;
-  width: 48px;
-  height: 24px;
   display: block;
+  flex: none;
+  width: 64px;
+  height: 32px;
   cursor: pointer;
 }
 
+/* Case invisible mais présente : le bouton reste utilisable au clavier */
 .theme-switch input {
-  display: none;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 5;
 }
 
 .theme-switch .slider {
   position: absolute;
   inset: 0;
-  background: var(--switch-bg);
-  border: 2px solid var(--switch-border);
-  border-radius: 34px;
-  transition: all 0.3s ease;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  gap: 4px;
+  padding: 0 3px;
+  background: var(--bg-color);
+  border: 1px solid var(--switch-border);
+  border-radius: 38px;
+  transition:
+    background 0.4s ease,
+    border-color 0.4s ease;
 }
 
+/* Curseur dégradé qui glisse sous l'icône active */
 .theme-switch .slider::before {
   content: "";
   position: absolute;
-  width: 18px;
-  height: 18px;
-  top: 1px;
-  left: 1px;
-  background: var(--switch-slider);
+  top: 2px;
+  left: 3px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
-  transition: transform 0.3s ease;
-  z-index: 2;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  box-shadow: 0 4px 10px rgba(99, 102, 241, 0.4);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .theme-switch input:checked + .slider::before {
-  transform: translateX(24px);
+  transform: translateX(30px);
 }
 
-.icon-sun {
-  color: #f59e0b;
-  font-size: 11px;
-  z-index: 1;
+.theme-switch .icon-sun,
+.theme-switch .icon-moon {
+  position: relative;
+  z-index: 2;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  line-height: 1;
+  color: var(--text-secondary);
+  transition: color 0.3s ease;
 }
 
-.icon-moon {
-  color: #94a3b8;
-  font-size: 11px;
-  z-index: 1;
+/* Icône active : blanche, sur le curseur */
+.theme-switch .icon-sun {
+  color: #fff;
+}
+
+.theme-switch input:checked + .slider .icon-sun {
+  color: var(--text-secondary);
+}
+
+.theme-switch input:checked + .slider .icon-moon {
+  color: #fff;
 }
 
 /* Mobile (max 639px) */
 @media screen and (max-width: 639px) {
   .theme-switch {
-    width: 42px;
-    height: 22px;
+    width: 56px;
+    height: 28px;
   }
 
   .theme-switch .slider::before {
-    width: 16px;
-    height: 16px;
+    width: 22px;
+    height: 22px;
   }
 
   .theme-switch input:checked + .slider::before {
-    transform: translateX(20px);
+    transform: translateX(26px);
   }
 
-  .icon-sun,
-  .icon-moon {
-    font-size: 10px;
+  .theme-switch .icon-sun,
+  .theme-switch .icon-moon {
+    width: 22px;
+    height: 22px;
+    font-size: 11px;
+  }
+}
+
+/* Accessibilité : animations réduites */
+@media (prefers-reduced-motion: reduce) {
+  .theme-switch .slider,
+  .theme-switch .slider::before,
+  .theme-switch .icon-sun,
+  .theme-switch .icon-moon {
+    transition: none;
   }
 }
 
